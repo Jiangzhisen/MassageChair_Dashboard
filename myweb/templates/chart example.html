@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>商品型號銷售統計</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>商品型號銷售統計</h2>
+    <canvas id="salesChart"></canvas>
+
+    <script>
+        // 假設以下是每種商品型號的銷售總額
+        var salesData = [
+            { model: '型號A', totalSales: 10000 },
+            { model: '型號B', totalSales: 15000 },
+            { model: '型號C', totalSales: 20000 },
+            { model: '型號D', totalSales: 12000 },
+            { model: '型號E', totalSales: 18000 }
+        ];
+
+        var labels = salesData.map(function(data) {
+            return data.model;
+        });
+
+        var data = salesData.map(function(data) {
+            return data.totalSales;
+        });
+
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '銷售總額',
+                    data: data,
+                    backgroundColor: '#0066cc',
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
