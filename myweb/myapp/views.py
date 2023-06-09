@@ -2,11 +2,13 @@ from django.shortcuts import render
 from .models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors
 from datetime import datetime, date
 import random
+from django.db.models import Count
 
 # Create your views here.
 
-#營運儀表板頁面
+#營運儀表板首頁
 def index(request):
+    #銷售量和銷售額的部分
     orders = Order.objects.all()
     dates = []
     monthSales_quantity = []
@@ -53,15 +55,13 @@ def index(request):
     monthSales_quantity.pop(0)
     monthSales_amount.append(currentAmount)
     monthSales_amount.pop(0)
-
     #去除重複的值
     dates = set(dates)
     new_dates = list(dates)
     month_list = sorted(new_dates)
 
 
-
-
+    #訪客數的部分
     visitors = Visitors.objects.all()
     monthSales_visitor = []
     dates1 = []
@@ -88,13 +88,13 @@ def index(request):
     #去掉第一個無意義的值
     monthSales_visitor.append(currentVisitors)
     monthSales_visitor.pop(0)
-
     #去除重複的值
     dates1 = set(dates1)
     new_dates1 = list(dates1)
     month_list1 = sorted(new_dates1)
 
 
+    #成本計算的部分
     totalCost = 0
     purchases = Purchase.objects.all()
     for purchase in purchases:
@@ -102,9 +102,15 @@ def index(request):
         totalCost += cost
 
 
+    #員工績效的部分
     employees = Employee.objects.all()
     employeeList = []
+    employeeRank = []
+    employeeCount = 0
+
     for employee in employees:
+        employeeCount += 1
+        employeeRank.append(employeeCount)
         employeeSales = 0
         employeeFeel = 0
         count = 0
@@ -130,37 +136,206 @@ def index(request):
         }
         employeeList.append(employeeInfo)
 
-
-
-
-
-
-
-
-
-    # print(month_list)
-    # print(monthSales_quantity)
-    # print(monthSales_amount)
-    # print(month_list1)
-    # print(monthSales_visitor)
-    # print(totalamount)
-    # print(totalquantity)
-    # print(totalVisitor)
-    # print(totalCost)
-    print(employeeList)
+    sortedEmployeeList = sorted(employeeList, key=lambda x: x['sales'], reverse=True)
+    # 在 sortedEmployeeList 的每個 employeeInfo 字典中增加 'rank' 屬性
+    for i, employee in enumerate(sortedEmployeeList):
+        employee['rank'] = i + 1
 
     return render(request, 'dashboard.html', locals())
 
 
-
-
-
-
+#客戶資訊頁面
 def customer(request):
+    #客戶資料的部分
+    customers = Customer.objects.all()
+    customerList = []
+    malestagetotal = []
+    totalPeople = []
+    femalestagetotal = []
+    for customer in customers:
+        customerId = customer.customerid
+        customerName = customer.customername
+        customerEmail = customer.customeremail
+        customerPhone = customer.customerphone
+        customerGender = customer.customergender
+        customerAge = customer.customerage
+        customerProfession = customer.customerprofession
+        customerTotaltime = 0
+        customerStage = ""
+        random_number = random.randint(1, 5)
+
+        usages = MassageChairUsage.objects.filter(customerid = customerId)
+        if usages:
+            for usage in usages:
+                time = usage.totaltime
+                customerTotaltime += time
+        else:
+            customerTotaltime = 0
+
+        try:
+            salesopp = SalesOpportunity.objects.get(customerid = customerId)
+            salesactId = salesopp.salesactid
+            salesStage = SalesActivity.objects.get(salesactid = salesactId)
+            customerStage = salesStage.salesstage
+        except SalesOpportunity.DoesNotExist:
+            customerStage = "第五階段"
+
+        customerInfo = {
+            "name": customerName,
+            "email": customerEmail,
+            "phone": customerPhone,
+            "gender": customerGender,
+            "age": customerAge,
+            "profession": customerProfession,
+            "totaltime": customerTotaltime,
+            "stage": customerStage,
+            "random": random_number
+        }
+        customerList.append(customerInfo)
+
+
+        #階段分析圖的部分
+        maleFirst = 0
+        maleSecond = 0
+        maleThird = 0
+        maleFourth = 0
+        maleFifth = 0
+        males = Customer.objects.filter(customergender = "男")
+        for male in males:
+            maleId = male.customerid
+            try:
+                maleopp = SalesOpportunity.objects.get(customerid = maleId)
+                salesstageId = maleopp.salesactid
+                if salesstageId == "A001":
+                    maleFirst += 1
+                elif salesstageId == "A002":
+                    maleSecond += 1
+                elif salesstageId == "A003":
+                    maleThird += 1
+                else:
+                    maleFourth += 1
+            except:
+                maleFifth += 1
+
+        femaleFirst = 0
+        femaleSecond = 0
+        femaleThird = 0
+        femaleFourth = 0
+        femaleFifth = 0
+        females = Customer.objects.filter(customergender = "女")
+        for female in females:
+            femaleId = female.customerid
+            try:
+                femaleopp = SalesOpportunity.objects.get(customerid = femaleId)
+                salesstageId = femaleopp.salesactid
+                if salesstageId == "A001":
+                    femaleFirst += 1
+                elif salesstageId == "A002":
+                    femaleSecond += 1
+                elif salesstageId == "A003":
+                    femaleThird += 1
+                else:
+                    femaleFourth += 1
+            except:
+                femaleFifth += 1
+    
+    malestagetotal.append(maleFirst)
+    malestagetotal.append(maleSecond)
+    malestagetotal.append(maleThird)
+    malestagetotal.append(maleFourth)
+    malestagetotal.append(maleFifth)
+
+    femalestagetotal.append(femaleFirst)
+    femalestagetotal.append(femaleSecond)
+    femalestagetotal.append(femaleThird)
+    femalestagetotal.append(femaleFourth)
+    femalestagetotal.append(femaleFifth)
+
+    firstTotal = maleFirst + femaleFirst
+    secondTotal = maleSecond + femaleSecond
+    thirdTotal = maleThird + femaleThird
+    fourthTotal = maleFourth + femaleFourth
+    fifthTotal = maleFifth + femaleFifth
+
+    totalPeople.append(firstTotal)
+    totalPeople.append(secondTotal)
+    totalPeople.append(thirdTotal)
+    totalPeople.append(fourthTotal)
+    totalPeople.append(fifthTotal)
+
+
+    #性別分布的部分
+    genderpercent = []
+    maleTotal = maleFirst + maleSecond + maleThird + maleFourth + maleFifth
+    femaleTotal = femaleFirst + femaleSecond + femaleThird + femaleFourth + femaleFifth
+    genderpercent.append(femaleTotal)
+    genderpercent.append(maleTotal)
+
+
+    #職業分布的部分
+    occupationList = []
+    occupationCount = []
+    occupationColor = []
+    occupation_counts = Customer.objects.values('customerprofession').annotate(total=Count('customerid'))
+    for item in occupation_counts:
+        occupation = item['customerprofession']
+        total_count = item['total']
+        random_color = generate_random_color()
+        occupationList.append(occupation)
+        occupationCount.append(total_count)
+        occupationColor.append(random_color)
+
+    
+    #年齡分布的部分
+    agelist = []
+    colorlist = []
+    firstAge = 0
+    secondAge = 0
+    thirdAge = 0
+    fourthAge = 0
+    fifthAge = 0
+    sixthAge = 0
+    customers1 = Customer.objects.all()
+    for customer1 in customers1:
+        customerage1 = customer1.customerage
+        if customerage1 >= 70:
+            sixthAge += 1
+        elif customerage1 >= 60:
+            fifthAge += 1
+        elif customerage1 >= 50:
+            fourthAge += 1
+        elif customerage1 >= 40:
+            thirdAge += 1
+        elif customerage1 >= 30:
+            secondAge += 1
+        else:
+            firstAge += 1
+    
+    for i in range(1, 7):
+        random_color1 = generate_random_color()
+        colorlist.append(random_color1)
+        
+    agelist.append(firstAge)
+    agelist.append(secondAge)
+    agelist.append(thirdAge)
+    agelist.append(fourthAge)
+    agelist.append(fifthAge)
+    agelist.append(sixthAge)
+    
     return render(request, 'customer.html', locals())
+
 
 def massageChair(request):
     return render(request, 'chair.html', locals())
 
 def activity(request):
     return render(request, 'activity.html', locals())
+
+
+# 生成隨機的十六進制顏色碼
+def generate_random_color():
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
+    color_code = '#{:02x}{:02x}{:02x}'.format(r, g, b)
+    return color_code

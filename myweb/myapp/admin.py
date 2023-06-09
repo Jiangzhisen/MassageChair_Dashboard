@@ -7,7 +7,7 @@ class Branchadmin(admin.ModelAdmin):
     list_display = ('branchid', 'branchname', 'branchaddress', 'branchphone', 'employeeid')
 
 class Customeradmin(admin.ModelAdmin):
-    list_display = ('customerid', 'customername', 'customergender', 'customerprofession', 'customerphone', 'customeremail')
+    list_display = ('customerid', 'customername', 'customergender', 'customerage', 'customerprofession', 'customerphone', 'customeremail')
 
 class Employeeadmin(admin.ModelAdmin):
     list_display = ('employeeid', 'employeename', 'branchid', 'employeeposition', 'employeeentrydate', 'employeephone', 'employeegender', 'employeeemail')
@@ -19,7 +19,7 @@ class MassageChairadmin(admin.ModelAdmin):
     list_display = ('massagerid', 'branchid', 'status', 'usagecount')
 
 class MassageChairUsageadmin(admin.ModelAdmin):
-    list_display = ('massagerid', 'totaltime', 'starttime', 'endtime')
+    list_display = ('massagerid', 'customerid', 'totaltime', 'starttime', 'endtime')
 
 class Orderadmin(admin.ModelAdmin):
     list_display = ('orderid', 'employeeid', 'customerid', 'orderdate', 'orderprice')
@@ -40,7 +40,7 @@ class PurchaseDetailadmin(admin.ModelAdmin):
     list_display = ('purchaseid', 'modelid', 'purchasequantity', 'purchaseamount')
 
 class SalesActivityadmin(admin.ModelAdmin):
-    list_display = ('salesactid', 'salesacttype', 'salesactremark')
+    list_display = ('salesactid', 'salesstage', 'salesacttype', 'salesactremark')
 
 class SalesOpportunityadmin(admin.ModelAdmin):
     list_display = ('salesoppid', 'customerid', 'salesactid', 'employeeid', 'salesoppexcd', 'salesoppexsa')

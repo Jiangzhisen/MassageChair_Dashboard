@@ -21,6 +21,7 @@ class Customer(models.Model):
     customerid = models.CharField(max_length=45, primary_key=True)
     customername = models.CharField(max_length=45)
     customergender = models.CharField(max_length=45)
+    customerage = models.IntegerField()
     customerprofession = models.CharField(max_length=45)
     customerphone = models.CharField(max_length=45)
     customeremail = models.CharField(max_length=45)
@@ -57,6 +58,7 @@ class MassageChair(models.Model):
 #公共按摩椅使用狀態按摩椅
 class MassageChairUsage(models.Model):
     massagerid = models.CharField(max_length=45)
+    customerid = models.CharField(max_length=45)
     totaltime = models.IntegerField()
     starttime = models.DateField()
     endtime = models.DateField()
@@ -118,6 +120,7 @@ class PurchaseDetail(models.Model):
 #銷售活動資料表
 class SalesActivity(models.Model):
     salesactid = models.CharField(max_length=45, primary_key=True)
+    salesstage = models.CharField(max_length=45)
     salesacttype = models.CharField(max_length=45)
     salesactremark = models.CharField(max_length=100)
 
