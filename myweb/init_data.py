@@ -1,6 +1,9 @@
 from myapp.models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors
 from datetime import date
-
+import random
+from datetime import datetime, timedelta
+from django.utils import timezone
+from django.db.models import Count
 
 def create_branches():
     # 創建分店資料
@@ -97,32 +100,67 @@ def create_feedback():
 create_feedback()
 
 
+def create_massagechairusage():
+    # 生成按摩椅 ID 和顧客 ID 的列表
+    massager_ids = ["M001", "M002", "M003", "M004", "M005"]
+    customer_ids = ["C001", "C002", "C003", "C004", "C005", "C006", "C007", "C008", "C009", "C010",
+                    "C011", "C012", "C013", "C014", "C015", "C016", "C017", "C018", "C019", "C020",
+                    "C021", "C022", "C023", "C024", "C025", "C026", "C027", "C028", "C029", "C030"]
+
+    # 生成 100 筆範例資料
+    example_data = []
+
+    for _ in range(100):
+        massager_id = random.choice(massager_ids)
+        customer_id = random.choice(customer_ids)
+        total_time = random.randint(1, 12) * 5  # 隨機生成使用時間（10 到 60 分鐘之間）
+
+        # 隨機生成開始時間（在 2023 年內的不同月份）
+        start_time = timezone.make_aware(datetime(
+            2023, random.randint(1, 12), random.randint(1, 28), random.randint(8, 23), random.randint(0, 59))
+        )
+
+        # 根據使用時間計算結束時間
+        end_time = start_time + timedelta(minutes=total_time)
+
+        example_data.append(MassageChairUsage(
+            massagerid=massager_id,
+            customerid=customer_id,
+            totaltime=total_time,
+            starttime=start_time,
+            endtime=end_time
+        ))
+
+    # 將範例資料批量寫入資料庫
+    MassageChairUsage.objects.bulk_create(example_data)
+
+create_massagechairusage()   
+
+
 def create_massagechair():
     # 創建公共按摩椅資料
-    MassageChair.objects.create(massagerid='M001', branchid='B001', status='可使用', usagecount=3)
-    MassageChair.objects.create(massagerid='M002', branchid='B001', status='可使用', usagecount=1)
-    MassageChair.objects.create(massagerid='M003', branchid='B002', status='不可使用', usagecount=1)
-    MassageChair.objects.create(massagerid='M004', branchid='B003', status='可使用', usagecount=3)
-    MassageChair.objects.create(massagerid='M005', branchid='B003', status='可使用', usagecount=3)
+    MassageChair.objects.create(massagerid='M001', branchid='B001', status='營運中', usagecount=0)
+    MassageChair.objects.create(massagerid='M002', branchid='B001', status='營運中', usagecount=0)
+    MassageChair.objects.create(massagerid='M003', branchid='B002', status='維修中', usagecount=0)
+    MassageChair.objects.create(massagerid='M004', branchid='B003', status='營運中', usagecount=0)
+    MassageChair.objects.create(massagerid='M005', branchid='B003', status='營運中', usagecount=0)
 
 create_massagechair()
 
+def update_usage_count():
+    # 從MassageChairUsage模型中根據massagerid進行分組，並計算每個massagerid的使用次數
+    usage_count = MassageChairUsage.objects.values('massagerid').annotate(count=Count('massagerid'))
 
-def create_massagechairusage():
-    # 創建公共按摩椅使用狀態資料
-    MassageChairUsage.objects.create(massagerid='M001', customerid='C001',totaltime=30, starttime='2022-06-01', endtime='2022-06-01')
-    MassageChairUsage.objects.create(massagerid='M001', customerid='C002',totaltime=30, starttime='2022-06-01', endtime='2022-06-01')
-    MassageChairUsage.objects.create(massagerid='M001', customerid='C003',totaltime=45, starttime='2022-06-02', endtime='2022-06-02')
-    MassageChairUsage.objects.create(massagerid='M002', customerid='C004',totaltime=20, starttime='2022-06-03', endtime='2022-06-03')
-    MassageChairUsage.objects.create(massagerid='M003', customerid='C005',totaltime=0, starttime='2022-06-04', endtime='2022-06-04')
-    MassageChairUsage.objects.create(massagerid='M004', customerid='C006',totaltime=60, starttime='2022-06-05', endtime='2022-06-05')
-    MassageChairUsage.objects.create(massagerid='M004', customerid='C007',totaltime=15, starttime='2022-06-06', endtime='2022-06-06')
-    MassageChairUsage.objects.create(massagerid='M004', customerid='C008',totaltime=30, starttime='2022-06-07', endtime='2022-06-07')
-    MassageChairUsage.objects.create(massagerid='M005', customerid='C009',totaltime=40, starttime='2022-06-08', endtime='2022-06-08')
-    MassageChairUsage.objects.create(massagerid='M005', customerid='C010',totaltime=10, starttime='2022-06-09', endtime='2022-06-09')
-    MassageChairUsage.objects.create(massagerid='M005', customerid='C011',totaltime=20, starttime='2022-06-10', endtime='2022-06-10')
+    # 遍歷使用次數結果
+    for data in usage_count:
+        massager_id = data['massagerid']
+        count = data['count']
 
-create_massagechairusage()
+        # 在MassageChair模型中根據massagerid更新相應的usagecount
+        MassageChair.objects.filter(massagerid=massager_id).update(usagecount=count)
+
+# 執行更新使用次數的函數
+update_usage_count()
 
 
 def create_order():

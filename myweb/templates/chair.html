@@ -16,6 +16,7 @@
 <html lang="en">
 
 <head>
+  {% load static %}
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png"> -->
@@ -189,18 +190,21 @@
               </div>
             </div>
             <div class="card-body">
-              <h6 class="mb-0">型號：TCD123</h6>
+              <h6 class="mb-0">{% for massager_id in massager_ids %}
+                {% if massager_id == 'M001' %}
+                    {{ massager_id }}
+                {% endif %}
+            {% endfor %}</h6>
               <table>
                 <tr>
-                  <td>使用次數/月：</td>
-                  <td>50</td>
+                  <td>使用總次數：{{ usage_sums_by_massager.M001 }}</td>
                 </tr>
               </table>
               <hr class="dark horizontal">
               <div class="d-flex">
-                <span class="badge badge-sm bg-gradient-success">維修中</span>
-                <i class="material-icons text-sm my-auto me-1 position-relative">place</i>
-                <p class="mb-0 text-sm">大潤發中原店3F</p>
+                <span class="badge badge-sm bg-gradient-success">{{ status_list.0 }}</span>
+                {% comment %} <i class="material-icons text-sm my-auto me-1 position-relative">place</i>
+                <p class="mb-0 text-sm">大潤發中原店3F</p> {% endcomment %}
               </div>
             </div>
           </div>
@@ -216,18 +220,21 @@
               </div>
             </div>
             <div class="card-body">
-              <h6 class="mb-0">型號：TCD123</h6>
+              <h6 class="mb-0">{% for massager_id in massager_ids %}
+                {% if massager_id == 'M002' %}
+                    {{ massager_id }}
+                {% endif %}
+            {% endfor %}</h6>
               <table>
                 <tr>
-                  <td>使用次數/月：</td>
-                  <td>50</td>
+                  <td>使用總次數：{{ usage_sums_by_massager.M002 }}</td>
                 </tr>
               </table>
               <hr class="dark horizontal">
               <div class="d-flex">
-                <span class="badge badge-sm bg-gradient-success">維修中</span>
-                <i class="material-icons text-sm my-auto me-1 position-relative">place</i>
-                <p class="mb-0 text-sm">大潤發中原店3F</p>
+                <span class="badge badge-sm bg-gradient-success">{{ status_list.1 }}</span>
+                {% comment %} <i class="material-icons text-sm my-auto me-1 position-relative">place</i>
+                <p class="mb-0 text-sm">大潤發中原店3F</p> {% endcomment %}
               </div>
             </div>
           </div>
@@ -243,17 +250,20 @@
               </div>
             </div>
             <div class="card-body">
-              <h6 class="mb-0">型號：TCD123</h6>
+              <h6 class="mb-0">{% for massager_id in massager_ids %}
+                {% if massager_id == 'M003' %}
+                    {{ massager_id }}
+                {% endif %}
+            {% endfor %}</h6>
               <table>
                 <tr>
-                  <td>使用次數/月：</td>
-                  <td>50</td>
+                  <td>使用總次數：{{ usage_sums_by_massager.M003 }}</td>
                 </tr>
               </table>              <hr class="dark horizontal">
               <div class="d-flex">
-                <span class="badge badge-sm bg-gradient-success">維修中</span>
-                <i class="material-icons text-sm my-auto me-1 position-relative">place</i>
-                <p class="mb-0 text-sm">大潤發中原店3F</p>
+                <span class="badge badge-sm bg-gradient-success">{{ status_list.2 }}</span>
+                {% comment %} <i class="material-icons text-sm my-auto me-1 position-relative">place</i>
+                <p class="mb-0 text-sm">大潤發中原店3F</p> {% endcomment %}
               </div>
             </div>
           </div>
@@ -269,17 +279,20 @@
               </div>
             </div>
             <div class="card-body">
-              <h6 class="mb-0">型號：TCD123</h6>
+              <h6 class="mb-0">{% for massager_id in massager_ids %}
+                {% if massager_id == 'M004' %}
+                    {{ massager_id }}
+                {% endif %}
+            {% endfor %}</h6>
               <table>
                 <tr>
-                  <td>使用次數/月：</td>
-                  <td>50</td>
+                  <td>使用總次數：{{ usage_sums_by_massager.M004 }}</td>
                 </tr>
               </table>              <hr class="dark horizontal">
               <div class="d-flex">
-                <span class="badge badge-sm bg-gradient-success">維修中</span>
-                <i class="material-icons text-sm my-auto me-1 position-relative">place</i>
-                <p class="mb-0 text-sm">大潤發中原店3F</p>
+                <span class="badge badge-sm bg-gradient-success">{{ status_list.3 }}</span>
+                {% comment %} <i class="material-icons text-sm my-auto me-1 position-relative">place</i>
+                <p class="mb-0 text-sm">大潤發中原店3F</p> {% endcomment %}
               </div>
             </div>
           </div>
@@ -295,17 +308,20 @@
               </div>
             </div>
             <div class="card-body">
-              <h6 class="mb-0">型號：TCD123</h6>
+              <h6 class="mb-0">{% for massager_id in massager_ids %}
+                {% if massager_id == 'M005' %}
+                    {{ massager_id }}
+                {% endif %}
+            {% endfor %}</h6>
               <table>
                 <tr>
-                  <td>使用次數/月：</td>
-                  <td>50</td>
+                  <td>使用總次數：{{ usage_sums_by_massager.M005 }}</td>
                 </tr>
               </table>              <hr class="dark horizontal">
               <div class="d-flex">
-                <span class="badge badge-sm bg-gradient-success">維修中</span>
-                <i class="material-icons text-sm my-auto me-1 position-relative">place</i>
-                <p class="mb-0 text-sm">大潤發中原店3F</p>
+                <span class="badge badge-sm bg-gradient-success">{{ status_list.4 }}</span>
+                {% comment %} <i class="material-icons text-sm my-auto me-1 position-relative">place</i>
+                <p class="mb-0 text-sm">大潤發中原店3F</p> {% endcomment %}
               </div>
             </div>
           </div>
@@ -466,7 +482,7 @@
     new Chart(ctx1, {
       type: "line",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: [{% for time in times %}"{{ time }}", {% endfor %}],
         datasets: [{
           label: "Sales",
           tension: 0,
@@ -478,7 +494,7 @@
           borderWidth: 4,
           backgroundColor: "transparent",
           fill: true,
-          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+          data: [{% for count in usage_counts_by_massager.M001 %}"{{ count }}",{% endfor %}],
           maxBarThickness: 6
         }],
       },
@@ -546,7 +562,7 @@
     new Chart(ctx2, {
       type: "line",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: [{% for time in times %}"{{ time }}", {% endfor %}],
         datasets: [{
           label: "Sales",
           tension: 0,
@@ -558,7 +574,7 @@
           borderWidth: 4,
           backgroundColor: "transparent",
           fill: true,
-          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+          data: [{% for count in usage_counts_by_massager.M002 %}"{{ count }}",{% endfor %}],
           maxBarThickness: 6
         }],
       },
@@ -626,7 +642,7 @@
     new Chart(ctx3, {
       type: "line",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: [{% for time in times %}"{{ time }}", {% endfor %}],
         datasets: [{
           label: "Sales",
           tension: 0,
@@ -638,7 +654,7 @@
           borderWidth: 4,
           backgroundColor: "transparent",
           fill: true,
-          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+          data: [{% for count in usage_counts_by_massager.M003 %}"{{ count }}",{% endfor %}],
           maxBarThickness: 6
         }],
       },
@@ -706,7 +722,7 @@
     new Chart(ctx4, {
       type: "line",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: [{% for time in times %}"{{ time }}", {% endfor %}],
         datasets: [{
           label: "Sales",
           tension: 0,
@@ -718,7 +734,7 @@
           borderWidth: 4,
           backgroundColor: "transparent",
           fill: true,
-          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+          data: [{% for count in usage_counts_by_massager.M004 %}"{{ count }}",{% endfor %}],
           maxBarThickness: 6
         }],
       },
@@ -786,7 +802,7 @@
     new Chart(ctx5, {
       type: "line",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: [{% for time in times %}"{{ time }}", {% endfor %}],
         datasets: [{
           label: "Sales",
           tension: 0,
@@ -798,7 +814,7 @@
           borderWidth: 4,
           backgroundColor: "transparent",
           fill: true,
-          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+          data: [{% for count in usage_counts_by_massager.M005 %}"{{ count }}",{% endfor %}],
           maxBarThickness: 6
         }],
       },

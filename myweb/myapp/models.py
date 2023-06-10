@@ -60,8 +60,8 @@ class MassageChairUsage(models.Model):
     massagerid = models.CharField(max_length=45)
     customerid = models.CharField(max_length=45)
     totaltime = models.IntegerField()
-    starttime = models.DateField()
-    endtime = models.DateField()
+    starttime = models.DateTimeField()
+    endtime = models.DateTimeField()
 
 #訂單資料表
 class Order(models.Model):

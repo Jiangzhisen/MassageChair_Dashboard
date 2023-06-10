@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors
-from datetime import datetime, date
+from datetime import datetime, date ,timedelta
 import random
 from django.db.models import Count
 
@@ -326,6 +326,45 @@ def customer(request):
 
 
 def massageChair(request):
+    Massages = MassageChair.objects.all()
+    status_list = []
+    for massage in Massages:
+        status_list.append(massage.status)
+    print(status_list)
+    # 設定時間區間
+    intervals = [
+        ("08:00", "10:00"),
+        ("10:00", "12:00"),
+        ("12:00", "14:00"),
+        ("14:00", "16:00"),
+        ("16:00", "18:00"),
+        ("18:00", "20:00"),
+        ("20:00", "22:00"),
+        ("22:00", "00:00")
+    ]
+    times=["08","10","12","14","16","18","20","22"]
+    # 按摩椅的列表
+    massager_ids = ["M001", "M002", "M003", "M004", "M005"]
+
+    # 計算每個時間區間內各按摩椅的使用次數
+    usage_counts_by_massager = {massager_id: [] for massager_id in massager_ids}
+
+    for start, end in intervals:
+        start_time = datetime.strptime(start, "%H:%M").time()
+        end_time = datetime.strptime(end, "%H:%M").time()
+        if start_time > end_time:
+            end_time = datetime.strptime("23:59", "%H:%M").time()
+
+        for massager_id in massager_ids:
+            usage_count = MassageChairUsage.objects.filter(
+            starttime__time__gte=start_time,
+            starttime__time__lt=end_time,
+            massagerid=massager_id
+            ).count()
+            usage_counts_by_massager[massager_id].append(usage_count)
+            usage_sums_by_massager = {massager_id: sum(counts) for massager_id, counts in usage_counts_by_massager.items()}
+    #print(times)
+    #print(usage_counts_by_massager)
     return render(request, 'chair.html', locals())
 
 def activity(request):
