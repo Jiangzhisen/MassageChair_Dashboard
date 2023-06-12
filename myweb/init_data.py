@@ -227,17 +227,6 @@ def create_orderdetail():
 create_orderdetail()
 
 
-def create_productmodel():
-    # 創建產品型號資料
-    ProductModel.objects.create(modelid='M001', productname='Massage Chair Model A', productprice=15000, inventory=45)
-    ProductModel.objects.create(modelid='M002', productname='Massage Chair Model B', productprice=18000, inventory=38)
-    ProductModel.objects.create(modelid='M003', productname='Massage Chair Model C', productprice=20000, inventory=36)
-    ProductModel.objects.create(modelid='M004', productname='Massage Chair Model D', productprice=22000, inventory=38)
-    ProductModel.objects.create(modelid='M005', productname='Massage Chair Model E', productprice=25000, inventory=21)
-
-create_productmodel()
-
-
 def create_product():
     # 創建產品資料
     Product.objects.create(productid='P033', modelid='M001', productiondate='2021-11-01', supplierid='S001')
@@ -271,6 +260,24 @@ def create_product():
 
 create_product()
 
+
+def create_productmodel():
+    # 創建產品型號資料
+    ProductModel.objects.create(modelid='M001', productname='Massage Chair Model A', productprice=15000, inventory=1)
+    ProductModel.objects.create(modelid='M002', productname='Massage Chair Model B', productprice=18000, inventory=1)
+    ProductModel.objects.create(modelid='M003', productname='Massage Chair Model C', productprice=20000, inventory=1)
+    ProductModel.objects.create(modelid='M004', productname='Massage Chair Model D', productprice=22000, inventory=1)
+    ProductModel.objects.create(modelid='M005', productname='Massage Chair Model E', productprice=25000, inventory=1)
+
+create_productmodel()
+
+def calculate_product_quantities():
+    product_data = Product.objects.values('modelid').annotate(quantity=Count('modelid'))
+    for data in product_data:
+        modelid = data['modelid']
+        quantity = data['quantity']
+        ProductModel.objects.filter(modelid=modelid).update(inventory=quantity)
+calculate_product_quantities()
 
 def create_purchase():
     # 創建進貨資料

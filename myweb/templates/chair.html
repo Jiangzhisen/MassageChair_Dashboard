@@ -335,7 +335,7 @@
             <div class="card-header pb-0">
               <div class="row">
                 <div class="col-lg-6 col-7">
-                  <h6>產品銷售分析</h6>
+                  <h6>產品銷售量分析</h6>
 
                 </div>
                 
@@ -348,11 +348,9 @@
                   <script>
                     // 假設以下是每種商品型號的銷售總額
                     var salesData = [
-                        { model: '型號A', totalSales: 10000 },
-                        { model: '型號B', totalSales: 15000 },
-                        { model: '型號C', totalSales: 20000 },
-                        { model: '型號D', totalSales: 12000 },
-                        { model: '型號E', totalSales: 18000 }
+                        {%for sales in sales_quantities%}
+                        { model: '{{sales.modelid}}', totalSales: "{{sales.purchasequantity}}"},
+                        {% endfor %},
                     ];
             
                     var labels = salesData.map(function(data) {
@@ -367,10 +365,12 @@
                     var chart = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: labels,
+                            {% comment %} labels: labels, {% endcomment %}
+                            labels: [{%for sales in sales_quantities%}"{{sales.modelid}}", {% endfor %}],
                             datasets: [{
-                                label: '銷售總額',
-                                data: data,
+                                label: '銷售總數量',
+                                {% comment %} data: data, {% endcomment %}
+                                data: [{%for sales in sales_quantities%}"{{sales.purchasequantity}}", {% endfor %}],
                                 backgroundColor: '#0066cc',
                             }]
                         },
@@ -401,11 +401,9 @@
 
                 <script>
                   var inventoryData = [
-                      { model: '型號A', stock: 50 },
-                      { model: '型號B', stock: 30 },
-                      { model: '型號C', stock: 20 },
-                      { model: '型號D', stock: 40 },
-                      { model: '型號E', stock: 10 }
+                    {%for products in product_quantities%}
+                      { model: '{{products.modelid}}', stock: '{{products.quantity}}' },
+                    {% endfor %},
                   ];
           
                     // 庫存量圖表設定

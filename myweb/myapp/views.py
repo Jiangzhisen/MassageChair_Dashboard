@@ -2,7 +2,8 @@ from django.shortcuts import render
 from .models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors
 from datetime import datetime, date ,timedelta
 import random
-from django.db.models import Count
+from django.db.models import Count,Sum
+
 
 # Create your views here.
 
@@ -326,11 +327,12 @@ def customer(request):
 
 
 def massageChair(request):
+    ##公共按摩椅熱門時段折線圖完成nmsl
     Massages = MassageChair.objects.all()
     status_list = []
     for massage in Massages:
         status_list.append(massage.status)
-    print(status_list)
+    #print(status_list)
     # 設定時間區間
     intervals = [
         ("08:00", "10:00"),
@@ -365,11 +367,22 @@ def massageChair(request):
             usage_sums_by_massager = {massager_id: sum(counts) for massager_id, counts in usage_counts_by_massager.items()}
     #print(times)
     #print(usage_counts_by_massager)
+    ##產品銷售量分析長條圖
+    sales_quantities = []
+    sales_data = PurchaseDetail.objects.values('modelid').annotate(total_sales=Sum('purchasequantity'))
+    for data in sales_data:
+        sales_quantities.append({'modelid': data['modelid'], 'purchasequantity': data['total_sales']})
+    #print(sales_quantities)
+    ##產品庫存量分析圓餅圖
+    product_quantities = []
+    product_data = Product.objects.values('modelid').annotate(quantity=Count('modelid'))
+    for data in product_data:
+        product_quantities.append({'modelid': data['modelid'], 'quantity': data['quantity']})
+    #print(product_quantities)
     return render(request, 'chair.html', locals())
 
 def activity(request):
     return render(request, 'activity.html', locals())
-
 
 # 生成隨機的十六進制顏色碼
 def generate_random_color():
