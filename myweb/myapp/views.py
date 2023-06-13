@@ -1,9 +1,14 @@
-from django.shortcuts import render
-from .models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors
+from django.shortcuts import render, redirect
+from .models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors, User
 from datetime import datetime, date ,timedelta
 import random
 from django.db.models import Count,Sum
-
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 
@@ -141,6 +146,23 @@ def index(request):
     # 在 sortedEmployeeList 的每個 employeeInfo 字典中增加 'rank' 屬性
     for i, employee in enumerate(sortedEmployeeList):
         employee['rank'] = i + 1
+
+    
+
+    # 定義預測銷售金額的字典
+    sales_by_month = {}
+    predicts = SalesOpportunity.objects.all()
+    for predict in predicts:
+        month = predict.salesoppexcd.month
+        sales2 = predict.salesoppexsa
+        date3 = f"{month}月"
+
+        # 累計該月份的預測銷售金額
+        if date3 in sales_by_month:
+            sales_by_month[date3] += sales2
+        else:
+            sales_by_month[date3] = sales2
+    
 
     return render(request, 'dashboard.html', locals())
 
@@ -322,10 +344,40 @@ def customer(request):
     agelist.append(fourthAge)
     agelist.append(fifthAge)
     agelist.append(sixthAge)
+
+
+    #購買目的的部分]
+    purposeList = []
+    purposeNum = []
+    purposeColor = []
+    purposes = Feedback.objects.values('feedbacktype').annotate(total = Count('feedbackid'))
+    for purpose in purposes:
+        intent = purpose['feedbacktype']
+        totalCount = purpose['total']
+        random_color2 = generate_random_color()
+        purposeList.append(intent)
+        purposeNum.append(totalCount)
+        purposeColor.append(random_color2)
+
+
+
+    #各階段成敗率
+    successRateList = []
+    actList = ["A001", "A002", "A003", "A004"]
+    for act in actList:
+        successRate = 0
+        opportunities1 = SalesOpportunity.objects.filter(salesactid = act)
+        allOpportunity = opportunities1.count()
+        seccessopps1 = SalesOpportunity.objects.filter(salesactid = act, status = "成功")
+        sucOpportunity = seccessopps1.count()
+        successRate = int((sucOpportunity / allOpportunity) * 100)
+        successRateList.append(successRate)
+
     
     return render(request, 'customer.html', locals())
 
 
+#按摩椅資訊頁面
 def massageChair(request):
     ##公共按摩椅熱門時段折線圖完成nmsl
     Massages = MassageChair.objects.all()
@@ -381,8 +433,43 @@ def massageChair(request):
     #print(product_quantities)
     return render(request, 'chair.html', locals())
 
+
 def activity(request):
     return render(request, 'activity.html', locals())
+
+
+#登入頁面
+def signin(request):
+    return render(request, 'sign-in.html')
+
+
+#登入判斷
+def login(request):
+    if request.method == 'POST':
+        email = str(request.POST.get('email'))
+        password = str(request.POST.get('password'))
+        remember_me = request.POST.get('rememberMe')
+        try:
+            user = User.objects.get(userid=email, userpassword=password)
+            print(user)
+
+            if not remember_me:
+                request.session.set_expiry(0)  # 若未勾選 Remember Me，設定 session 的過期時間為瀏覽器關閉即失效
+
+            return redirect('/index/')  # 登入成功後導向首頁
+
+        except ObjectDoesNotExist:
+            messages.error(request, '登入失敗！請檢查您的帳號和密碼。')
+            return redirect('/signin/')
+
+    messages.error(request, '登入失敗！請檢查您的帳號和密碼。')
+    return redirect('/signin/')
+    
+
+
+
+        
+
 
 # 生成隨機的十六進制顏色碼
 def generate_random_color():

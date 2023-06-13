@@ -1,5 +1,5 @@
 from django.contrib import admin
-from myapp.models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors
+from myapp.models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors, User
 
 # Register your models here.
 
@@ -43,13 +43,16 @@ class SalesActivityadmin(admin.ModelAdmin):
     list_display = ('salesactid', 'salesstage', 'salesacttype', 'salesactremark')
 
 class SalesOpportunityadmin(admin.ModelAdmin):
-    list_display = ('salesoppid', 'customerid', 'salesactid', 'employeeid', 'salesoppexcd', 'salesoppexsa')
+    list_display = ('salesoppid', 'customerid', 'salesactid', 'employeeid', 'salesoppexcd', 'salesoppexsa', 'status')
 
 class Supplieradmin(admin.ModelAdmin):
     list_display = ('supplierid', 'suppliername', 'supplierphone', 'supplieraddress', 'contactperson', 'supplieremail')
 
 class Visitorsadmin(admin.ModelAdmin):
     list_display = ('branchid', 'date', 'visitorcount')
+
+class Useradmin(admin.ModelAdmin):
+    list_display = ('userid', 'userpassword', 'employeeid')
 
 
 admin.site.register(Branch, Branchadmin)
@@ -68,6 +71,7 @@ admin.site.register(SalesActivity, SalesActivityadmin)
 admin.site.register(SalesOpportunity, SalesOpportunityadmin)
 admin.site.register(Supplier, Supplieradmin)
 admin.site.register(Visitors, Visitorsadmin)
+admin.site.register(User, Useradmin)
 
 
 

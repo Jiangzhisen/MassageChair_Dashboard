@@ -37,6 +37,12 @@ class Employee(models.Model):
     employeegender = models.CharField(max_length=45)
     employeeemail = models.CharField(max_length=45)
 
+#帳號密碼資料表
+class User(models.Model):
+    userid = models.CharField(max_length=45, primary_key=True)
+    userpassword = models.CharField(max_length=45)
+    employeeid = models.CharField(max_length=45)
+
 #意見回饋資料表
 class Feedback(models.Model):
     feedbackid = models.CharField(max_length=45, primary_key=True)
@@ -132,6 +138,7 @@ class SalesOpportunity(models.Model):
     employeeid = models.CharField(max_length=45)
     salesoppexcd = models.DateField()
     salesoppexsa = models.IntegerField()
+    status = models.CharField(max_length=45)
 
 #供應商資料表
 class Supplier(models.Model):
