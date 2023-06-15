@@ -1,15 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors, User
-from datetime import datetime, date ,timedelta
+from datetime import datetime
 import random
 from django.db.models import Count,Sum
-from django import forms
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login
-from django.http import HttpResponse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth import logout
 
 # Create your views here.
 
@@ -140,7 +135,8 @@ def index(request):
                 "name": employeeName,
                 "sales": employeeSales,
                 "satisfaction": averageFeel,
-                "random": random_number
+                "random": random_number,
+                "color": generate_random_color()
             }
             employeeList.append(employeeInfo)
 
@@ -164,7 +160,24 @@ def index(request):
                 sales_by_month[date3] += sales2
             else:
                 sales_by_month[date3] = sales2
+
         
+        #分店銷售額排行
+        branchList = []
+        branchs = Branch.objects.all()
+        for branch in branchs:
+            branchname = branch.branchname
+            branchsales = branch.salesyear
+            branchInfo = {
+                "name": branchname,
+                "sales": branchsales
+            }
+            branchList.append(branchInfo)
+
+        sortedbranchList = sorted(branchList, key=lambda x: x['sales'], reverse=True)
+        for i, branch in enumerate(sortedbranchList):
+            branch['rank'] = i + 1
+
     else:
         messages.error(request, '您還未登入！請輸入帳號密碼登入。')
         return redirect('/signin/')
@@ -491,7 +504,20 @@ def massageChair(request):
             modelData = ProductModel.objects.filter(modelid = modelId)
             modelName = modelData[0].productname   
             product_quantities.append({'modelid': modelName, 'quantity': data['quantity']})
-        #print(product_quantities)
+        
+
+        #公共按摩椅的使用次數分布
+        usageList = []
+        usages = MassageChair.objects.all()
+        for usage in usages:
+            massageChairId = usage.massagerid
+            massageChairCount = usage.usagecount
+            massageChairInfo = {
+                "id": massageChairId,
+                "count": massageChairCount,
+                "color": generate_random_color()
+            }
+            usageList.append(massageChairInfo)
 
     else:
         messages.error(request, '您還未登入！請輸入帳號密碼登入。')

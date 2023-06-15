@@ -7,11 +7,11 @@ from django.db.models import Count
 
 def create_branches():
     # 創建分店資料
-    Branch.objects.create(branchid='B001', branchname='台北分店', branchaddress='台北市中正區', branchphone='02-12345678', employeeid='E001')
-    Branch.objects.create(branchid='B002', branchname='新北分店', branchaddress='新北市板橋區', branchphone='02-98765432', employeeid='E005')
-    Branch.objects.create(branchid='B003', branchname='桃園分店', branchaddress='桃園市中壢區', branchphone='03-24681357', employeeid='E008')
-    Branch.objects.create(branchid='B004', branchname='高雄分店', branchaddress='高雄市左營區', branchphone='07-13579246', employeeid='E001')
-    Branch.objects.create(branchid='B005', branchname='台中分店', branchaddress='台中市西區', branchphone='04-56789012', employeeid='E001')
+    Branch.objects.create(branchid='B001', branchname='台北分店', branchaddress='台北市中正區', branchphone='02-12345678', employeeid='E001', salesyear = 1220000)
+    Branch.objects.create(branchid='B002', branchname='新北分店', branchaddress='新北市板橋區', branchphone='02-98765432', employeeid='E005', salesyear = 1350000)
+    Branch.objects.create(branchid='B003', branchname='桃園分店', branchaddress='桃園市中壢區', branchphone='03-24681357', employeeid='E008', salesyear = 950000)
+    Branch.objects.create(branchid='B004', branchname='高雄分店', branchaddress='高雄市左營區', branchphone='07-13579246', employeeid='E001', salesyear = 1680000)
+    Branch.objects.create(branchid='B005', branchname='台中分店', branchaddress='台中市西區', branchphone='04-56789012', employeeid='E001', salesyear = 1120000)
 
 create_branches()
 
@@ -91,16 +91,16 @@ create_customers()
 
 def create_employee():
     # 創建員工資料
-    Employee.objects.create(employeeid='E001', employeename='John Doe', branchid='B001', employeeposition='Manager', employeeentrydate='2022-01-01', employeephone='1234567890', employeegender='男', employeeemail='john.doe@example.com')
-    Employee.objects.create(employeeid='E002', employeename='Jane Smith', branchid='B001', employeeposition='Sales Associate', employeeentrydate='2022-01-01', employeephone='9876543210', employeegender='女', employeeemail='jane.smith@example.com')
-    Employee.objects.create(employeeid='E003', employeename='Michael Johnson', branchid='B001', employeeposition='Manager', employeeentrydate='2022-01-01', employeephone='5551234567', employeegender='男', employeeemail='michael.johnson@example.com')
-    Employee.objects.create(employeeid='E004', employeename='Emily Davis', branchid='B001', employeeposition='Sales Associate', employeeentrydate='2022-01-01', employeephone='7779876543', employeegender='女', employeeemail='emily.davis@example.com')
-    Employee.objects.create(employeeid='E005', employeename='David Wilson', branchid='B002', employeeposition='Manager', employeeentrydate='2022-01-01', employeephone='9995551234', employeegender='男', employeeemail='david.wilson@example.com')
-    Employee.objects.create(employeeid='E006', employeename='Olivia Martinez', branchid='B002', employeeposition='Sales Associate', employeeentrydate='2022-01-01', employeephone='1117779876', employeegender='女', employeeemail='olivia.martinez@example.com')
-    Employee.objects.create(employeeid='E007', employeename='William Anderson', branchid='B002', employeeposition='Manager', employeeentrydate='2022-01-01', employeephone='2228889999', employeegender='男', employeeemail='william.anderson@example.com')
-    Employee.objects.create(employeeid='E008', employeename='Sophia Wilson', branchid='B003', employeeposition='Sales Associate', employeeentrydate='2022-01-01', employeephone='3334445555', employeegender='女', employeeemail='sophia.wilson@example.com')
-    Employee.objects.create(employeeid='E009', employeename='James Thompson', branchid='B003', employeeposition='Manager', employeeentrydate='2022-01-01', employeephone='6667778888', employeegender='男', employeeemail='james.thompson@example.com')
-    Employee.objects.create(employeeid='E010', employeename='Ava Johnson', branchid='B003', employeeposition='Sales Associate', employeeentrydate='2022-01-01', employeephone='9991112222', employeegender='女', employeeemail='ava.johnson@example.com')
+    Employee.objects.create(employeeid='E001', employeename='劉子新', branchid='B001', employeeposition='Manager', employeeentrydate='2022-01-01', employeephone='1234567890', employeegender='男', employeeemail='john.doe@example.com')
+    Employee.objects.create(employeeid='E002', employeename='林孟季', branchid='B001', employeeposition='Sales Associate', employeeentrydate='2022-01-01', employeephone='9876543210', employeegender='女', employeeemail='jane.smith@example.com')
+    Employee.objects.create(employeeid='E003', employeename='林冠書', branchid='B001', employeeposition='Manager', employeeentrydate='2022-01-01', employeephone='5551234567', employeegender='男', employeeemail='michael.johnson@example.com')
+    Employee.objects.create(employeeid='E004', employeename='王麗安', branchid='B001', employeeposition='Sales Associate', employeeentrydate='2022-01-01', employeephone='7779876543', employeegender='女', employeeemail='emily.davis@example.com')
+    Employee.objects.create(employeeid='E005', employeename='王美萱', branchid='B002', employeeposition='Manager', employeeentrydate='2022-01-01', employeephone='9995551234', employeegender='男', employeeemail='david.wilson@example.com')
+    Employee.objects.create(employeeid='E006', employeename='張智亦', branchid='B002', employeeposition='Sales Associate', employeeentrydate='2022-01-01', employeephone='1117779876', employeegender='女', employeeemail='olivia.martinez@example.com')
+    Employee.objects.create(employeeid='E007', employeename='張冠中', branchid='B002', employeeposition='Manager', employeeentrydate='2022-01-01', employeephone='2228889999', employeegender='男', employeeemail='william.anderson@example.com')
+    Employee.objects.create(employeeid='E008', employeename='蔡雅雯', branchid='B003', employeeposition='Sales Associate', employeeentrydate='2022-01-01', employeephone='3334445555', employeegender='女', employeeemail='sophia.wilson@example.com')
+    Employee.objects.create(employeeid='E009', employeename='張承航', branchid='B003', employeeposition='Manager', employeeentrydate='2022-01-01', employeephone='6667778888', employeegender='男', employeeemail='james.thompson@example.com')
+    Employee.objects.create(employeeid='E010', employeename='陳柏毅', branchid='B003', employeeposition='Sales Associate', employeeentrydate='2022-01-01', employeephone='9991112222', employeegender='女', employeeemail='ava.johnson@example.com')
 
 create_employee()
 

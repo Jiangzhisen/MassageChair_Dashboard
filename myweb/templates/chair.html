@@ -326,7 +326,6 @@
             </div>
           </div>
         </div>
-    
       </div>
 
       <div class="row mb-4">
@@ -336,9 +335,7 @@
               <div class="row">
                 <div class="col-lg-6 col-7">
                   <h6>產品銷售量分析</h6>
-
                 </div>
-                
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -438,7 +435,19 @@
                   });
               </script>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100">
+          <div class="card-header pb-0">
+            <h6>公共按摩椅使用次數分布</h6>
+          </div>
+          <div class="card-body p-3">
+            <div class="table-responsive">
+              <canvas id="doughnutChart"></canvas>
             </div>
           </div>
         </div>
@@ -880,6 +889,33 @@
         },
       },
     });
+
+    // 資料示例
+    const data1 = {
+      labels: [{% for usage in usageList %}"{{ usage.id }}", {% endfor %}],
+      datasets: [{
+        //data: [20, 22],
+        data: [{% for usage in usageList %}"{{ usage.count }}", {% endfor %}],
+        backgroundColor: [{% for usage in usageList %}"{{ usage.color }}", {% endfor %}],
+        hoverBackgroundColor: [{% for usage in usageList %}"{{ usage.color }}", {% endfor %}]
+      }]
+    };
+
+    // Doughnut圖配置
+    const options = {
+      responsive: true,
+      cutoutPercentage: 70
+    };
+
+    var ctx1 = document.getElementById('doughnutChart').getContext('2d');
+    new Chart(ctx1, {
+      type: 'doughnut',
+      data: data1,
+      options: options
+    });
+
+   
+
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;

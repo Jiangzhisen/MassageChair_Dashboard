@@ -4,7 +4,7 @@ from myapp.models import Branch, Customer, Employee, Feedback, MassageChair, Mas
 # Register your models here.
 
 class Branchadmin(admin.ModelAdmin):
-    list_display = ('branchid', 'branchname', 'branchaddress', 'branchphone', 'employeeid')
+    list_display = ('branchid', 'branchname', 'branchaddress', 'branchphone', 'employeeid', 'salesyear')
 
 class Customeradmin(admin.ModelAdmin):
     list_display = ('customerid', 'customername', 'customergender', 'customerage', 'customerprofession', 'customerphone', 'customeremail')

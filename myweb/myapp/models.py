@@ -9,6 +9,7 @@ class Branch(models.Model):
     branchaddress = models.CharField(max_length=45)
     branchphone = models.CharField(max_length=45)
     employeeid = models.CharField(max_length=45)
+    salesyear = models.IntegerField()
 
 #分店訪客量資料表
 class Visitors(models.Model):
