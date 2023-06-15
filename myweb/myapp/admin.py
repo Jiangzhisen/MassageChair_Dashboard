@@ -13,7 +13,7 @@ class Employeeadmin(admin.ModelAdmin):
     list_display = ('employeeid', 'employeename', 'branchid', 'employeeposition', 'employeeentrydate', 'employeephone', 'employeegender', 'employeeemail')
 
 class Feedbackadmin(admin.ModelAdmin):
-    list_display = ('feedbackid', 'customerid', 'satisfaction', 'employeeid', 'orderid', 'feedbackdate', 'feedbacktype', 'processstatus')
+    list_display = ('feedbackid', 'customerid', 'satisfaction', 'employeeid', 'orderid', 'feedbackdate', 'feedbacktype', 'processstatus', 'factor', 'factor_price', 'factor_comfort')
 
 class MassageChairadmin(admin.ModelAdmin):
     list_display = ('massagerid', 'branchid', 'status', 'usagecount')

@@ -107,26 +107,26 @@ create_employee()
 
 def create_feedback():
     # 創建意見回饋資料
-    Feedback.objects.create(feedbackid='F001', customerid='C001', satisfaction=4, employeeid='E001', orderid='O001', feedbackdate='2023-01-01', feedbacktype='禮物送予他人', processstatus='處理中')
-    Feedback.objects.create(feedbackid='F002', customerid='C002', satisfaction=3, employeeid='E001', orderid='O002', feedbackdate='2023-01-02', feedbacktype='家庭使用', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F003', customerid='C003', satisfaction=5, employeeid='E002', orderid='O003', feedbackdate='2023-01-03', feedbacktype='健康維護', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F004', customerid='C004', satisfaction=2, employeeid='E002', orderid='O004', feedbackdate='2023-01-04', feedbacktype='放鬆與休閒', processstatus='處理中')
-    Feedback.objects.create(feedbackid='F005', customerid='C005', satisfaction=4, employeeid='E003', orderid='O005', feedbackdate='2023-01-05', feedbacktype='健康維護', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F006', customerid='C006', satisfaction=3, employeeid='E003', orderid='O006', feedbackdate='2023-02-01', feedbacktype='放鬆與休閒', processstatus='處理中')
-    Feedback.objects.create(feedbackid='F007', customerid='C007', satisfaction=5, employeeid='E004', orderid='O007', feedbackdate='2023-02-02', feedbacktype='放鬆與休閒', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F008', customerid='C008', satisfaction=2, employeeid='E004', orderid='O008', feedbackdate='2023-02-03', feedbacktype='家庭使用', processstatus='處理中')
-    Feedback.objects.create(feedbackid='F009', customerid='C009', satisfaction=4, employeeid='E005', orderid='O009', feedbackdate='2023-02-04', feedbacktype='家庭使用', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F010', customerid='C010', satisfaction=3, employeeid='E005', orderid='O010', feedbackdate='2023-02-05', feedbacktype='禮物送予他人', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F011', customerid='C011', satisfaction=5, employeeid='E006', orderid='O011', feedbackdate='2023-03-01', feedbacktype='家庭使用', processstatus='處理中')
-    Feedback.objects.create(feedbackid='F012', customerid='C012', satisfaction=4, employeeid='E006', orderid='O012', feedbackdate='2023-03-02', feedbacktype='健康維護', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F013', customerid='C013', satisfaction=3, employeeid='E007', orderid='O013', feedbackdate='2023-03-03', feedbacktype='家庭使用', processstatus='處理中')
-    Feedback.objects.create(feedbackid='F014', customerid='C014', satisfaction=5, employeeid='E007', orderid='O014', feedbackdate='2023-03-04', feedbacktype='放鬆與休閒', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F015', customerid='C015', satisfaction=2, employeeid='E008', orderid='O015', feedbackdate='2023-03-05', feedbacktype='健康維護', processstatus='處理中')
-    Feedback.objects.create(feedbackid='F016', customerid='C016', satisfaction=4, employeeid='E008', orderid='O016', feedbackdate='2023-04-01', feedbacktype='放鬆與休閒', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F017', customerid='C017', satisfaction=3, employeeid='E009', orderid='O017', feedbackdate='2023-04-02', feedbacktype='家庭使用', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F018', customerid='C018', satisfaction=5, employeeid='E009', orderid='O018', feedbackdate='2023-04-03', feedbacktype='放鬆與休閒', processstatus='處理中')
-    Feedback.objects.create(feedbackid='F019', customerid='C019', satisfaction=4, employeeid='E010', orderid='O019', feedbackdate='2023-04-04', feedbacktype='家庭使用', processstatus='已處理')
-    Feedback.objects.create(feedbackid='F020', customerid='C020', satisfaction=3, employeeid='E010', orderid='O020', feedbackdate='2023-04-05', feedbacktype='禮物送予他人', processstatus='處理中')
+    Feedback.objects.create(feedbackid='F001', customerid='C001', satisfaction=4, employeeid='E001', orderid='O001', feedbackdate='2023-01-01', feedbacktype='禮物送予他人', processstatus='處理中', factor='價格', factor_price=50000, factor_comfort=8.2)
+    Feedback.objects.create(feedbackid='F002', customerid='C002', satisfaction=3, employeeid='E001', orderid='O002', feedbackdate='2023-01-02', feedbacktype='家庭使用', processstatus='已處理', factor='舒適度', factor_price=35000, factor_comfort=5.6)
+    Feedback.objects.create(feedbackid='F003', customerid='C003', satisfaction=5, employeeid='E002', orderid='O003', feedbackdate='2023-01-03', feedbacktype='健康維護', processstatus='已處理', factor='功能', factor_price=20000, factor_comfort=4.7)
+    Feedback.objects.create(feedbackid='F004', customerid='C004', satisfaction=2, employeeid='E002', orderid='O004', feedbackdate='2023-01-04', feedbacktype='放鬆與休閒', processstatus='處理中', factor='舒適度', factor_price=40000, factor_comfort=7.1)
+    Feedback.objects.create(feedbackid='F005', customerid='C005', satisfaction=4, employeeid='E003', orderid='O005', feedbackdate='2023-01-05', feedbacktype='健康維護', processstatus='已處理', factor='價格', factor_price=80000, factor_comfort=9)
+    Feedback.objects.create(feedbackid='F006', customerid='C006', satisfaction=3, employeeid='E003', orderid='O006', feedbackdate='2023-02-01', feedbacktype='放鬆與休閒', processstatus='處理中', factor='品牌', factor_price=55000, factor_comfort=6.5)
+    Feedback.objects.create(feedbackid='F007', customerid='C007', satisfaction=5, employeeid='E004', orderid='O007', feedbackdate='2023-02-02', feedbacktype='放鬆與休閒', processstatus='已處理', factor='價格', factor_price=76000, factor_comfort=7.7)
+    Feedback.objects.create(feedbackid='F008', customerid='C008', satisfaction=2, employeeid='E004', orderid='O008', feedbackdate='2023-02-03', feedbacktype='家庭使用', processstatus='處理中', factor='價格', factor_price=43000, factor_comfort=6.9)
+    Feedback.objects.create(feedbackid='F009', customerid='C009', satisfaction=4, employeeid='E005', orderid='O009', feedbackdate='2023-02-04', feedbacktype='家庭使用', processstatus='已處理', factor='舒適度', factor_price=105000, factor_comfort=9.5)
+    Feedback.objects.create(feedbackid='F010', customerid='C010', satisfaction=3, employeeid='E005', orderid='O010', feedbackdate='2023-02-05', feedbacktype='禮物送予他人', processstatus='已處理', factor='外觀', factor_price=85000, factor_comfort=8.1)
+    Feedback.objects.create(feedbackid='F011', customerid='C011', satisfaction=5, employeeid='E006', orderid='O011', feedbackdate='2023-03-01', feedbacktype='家庭使用', processstatus='處理中', factor='舒適度', factor_price=30000, factor_comfort=5.4)
+    Feedback.objects.create(feedbackid='F012', customerid='C012', satisfaction=4, employeeid='E006', orderid='O012', feedbackdate='2023-03-02', feedbacktype='健康維護', processstatus='已處理', factor='價格', factor_price=46000, factor_comfort=7.6)
+    Feedback.objects.create(feedbackid='F013', customerid='C013', satisfaction=3, employeeid='E007', orderid='O013', feedbackdate='2023-03-03', feedbacktype='家庭使用', processstatus='處理中', factor='舒適度', factor_price=47000, factor_comfort=6.8)
+    Feedback.objects.create(feedbackid='F014', customerid='C014', satisfaction=5, employeeid='E007', orderid='O014', feedbackdate='2023-03-04', feedbacktype='放鬆與休閒', processstatus='已處理', factor='價格', factor_price=21000, factor_comfort=4.2)
+    Feedback.objects.create(feedbackid='F015', customerid='C015', satisfaction=2, employeeid='E008', orderid='O015', feedbackdate='2023-03-05', feedbacktype='健康維護', processstatus='處理中', factor='價格', factor_price=34000, factor_comfort=6.7)
+    Feedback.objects.create(feedbackid='F016', customerid='C016', satisfaction=4, employeeid='E008', orderid='O016', feedbackdate='2023-04-01', feedbacktype='放鬆與休閒', processstatus='已處理', factor='功能', factor_price=58000, factor_comfort=7.2)
+    Feedback.objects.create(feedbackid='F017', customerid='C017', satisfaction=3, employeeid='E009', orderid='O017', feedbackdate='2023-04-02', feedbacktype='家庭使用', processstatus='已處理', factor='價格', factor_price=43000, factor_comfort=6.6)
+    Feedback.objects.create(feedbackid='F018', customerid='C018', satisfaction=5, employeeid='E009', orderid='O018', feedbackdate='2023-04-03', feedbacktype='放鬆與休閒', processstatus='處理中', factor='舒適度', factor_price=26000, factor_comfort=4.2)
+    Feedback.objects.create(feedbackid='F019', customerid='C019', satisfaction=4, employeeid='E010', orderid='O019', feedbackdate='2023-04-04', feedbacktype='家庭使用', processstatus='已處理', factor='價格', factor_price=47000, factor_comfort=6.3)
+    Feedback.objects.create(feedbackid='F020', customerid='C020', satisfaction=3, employeeid='E010', orderid='O020', feedbackdate='2023-04-05', feedbacktype='禮物送予他人', processstatus='處理中', factor='舒適度', factor_price=67000, factor_comfort=8)
 
 create_feedback()
 
@@ -134,9 +134,13 @@ create_feedback()
 def create_massagechairusage():
     # 生成按摩椅 ID 和顧客 ID 的列表
     massager_ids = ["M001", "M002", "M003", "M004", "M005"]
-    customer_ids = ["C001", "C002", "C003", "C004", "C005", "C006", "C007", "C008", "C009", "C010",
-                    "C011", "C012", "C013", "C014", "C015", "C016", "C017", "C018", "C019", "C020",
-                    "C021", "C022", "C023", "C024", "C025", "C026", "C027", "C028", "C029", "C030"]
+    # customer_ids = ["C001", "C002", "C003", "C004", "C005", "C006", "C007", "C008", "C009", "C010",
+    #                 "C011", "C012", "C013", "C014", "C015", "C016", "C017", "C018", "C019", "C020",
+    #                 "C021", "C022", "C023", "C024", "C025", "C026", "C027", "C028", "C029", "C030"]
+    customer_ids = []
+    customers = Customer.objects.all()
+    for customer in customers:
+        customer_ids.append(customer.customerid)
 
     # 生成 100 筆範例資料
     example_data = []
@@ -144,7 +148,7 @@ def create_massagechairusage():
     for _ in range(100):
         massager_id = random.choice(massager_ids)
         customer_id = random.choice(customer_ids)
-        total_time = random.randint(1, 12) * 5  # 隨機生成使用時間（10 到 60 分鐘之間）
+        total_time = random.randint(2, 12) * 5  # 隨機生成使用時間（10 到 60 分鐘之間）
 
         # 隨機生成開始時間（在 2023 年內的不同月份）
         start_time = timezone.make_aware(datetime(
@@ -294,11 +298,11 @@ create_product()
 
 def create_productmodel():
     # 創建產品型號資料
-    ProductModel.objects.create(modelid='M001', productname='Massage Chair Model A', productprice=15000, inventory=1)
-    ProductModel.objects.create(modelid='M002', productname='Massage Chair Model B', productprice=18000, inventory=1)
-    ProductModel.objects.create(modelid='M003', productname='Massage Chair Model C', productprice=20000, inventory=1)
-    ProductModel.objects.create(modelid='M004', productname='Massage Chair Model D', productprice=22000, inventory=1)
-    ProductModel.objects.create(modelid='M005', productname='Massage Chair Model E', productprice=25000, inventory=1)
+    ProductModel.objects.create(modelid='M001', productname='商務艙PLUS零重力按摩椅', productprice=15000, inventory=1)
+    ProductModel.objects.create(modelid='M002', productname='360度原力按摩椅', productprice=18000, inventory=1)
+    ProductModel.objects.create(modelid='M003', productname='超夢椅', productprice=20000, inventory=1)
+    ProductModel.objects.create(modelid='M004', productname='V-Motion一健椅', productprice=22000, inventory=1)
+    ProductModel.objects.create(modelid='M005', productname='追夢椅PLUS(石墨烯升級款)', productprice=25000, inventory=1)
 
 create_productmodel()
 
@@ -388,25 +392,35 @@ create_salesactivity()
 def create_salesopportunity():
     # 創建銷售機會資料
     SalesOpportunity.objects.create(salesoppid='SO021', customerid='C021', salesactid='A001', employeeid='E001', salesoppexcd='2023-01-01', salesoppexsa=15000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO022', customerid='C022', salesactid='A002', employeeid='E002', salesoppexcd='2023-02-01', salesoppexsa=62000, status="失敗")
-    SalesOpportunity.objects.create(salesoppid='SO023', customerid='C023', salesactid='A003', employeeid='E003', salesoppexcd='2023-02-17', salesoppexsa=18000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO024', customerid='C024', salesactid='A004', employeeid='E004', salesoppexcd='2023-03-02', salesoppexsa=44000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO025', customerid='C025', salesactid='A001', employeeid='E005', salesoppexcd='2023-03-14', salesoppexsa=50000, status="失敗")
-    SalesOpportunity.objects.create(salesoppid='SO026', customerid='C026', salesactid='A002', employeeid='E006', salesoppexcd='2023-04-06', salesoppexsa=15000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO027', customerid='C027', salesactid='A003', employeeid='E007', salesoppexcd='2023-04-17', salesoppexsa=33000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO028', customerid='C028', salesactid='A004', employeeid='E008', salesoppexcd='2023-05-08', salesoppexsa=50000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO029', customerid='C029', salesactid='A001', employeeid='E009', salesoppexcd='2023-05-29', salesoppexsa=94000, status="失敗")
-    SalesOpportunity.objects.create(salesoppid='SO030', customerid='C030', salesactid='A002', employeeid='E010', salesoppexcd='2023-06-10', salesoppexsa=73000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO031', customerid='C031', salesactid='A003', employeeid='E001', salesoppexcd='2023-06-21', salesoppexsa=43000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO032', customerid='C032', salesactid='A004', employeeid='E001', salesoppexcd='2023-07-12', salesoppexsa=57000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO033', customerid='C033', salesactid='A001', employeeid='E003', salesoppexcd='2023-07-23', salesoppexsa=67000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO034', customerid='C034', salesactid='A002', employeeid='E005', salesoppexcd='2023-08-14', salesoppexsa=80000, status="失敗")
-    SalesOpportunity.objects.create(salesoppid='SO035', customerid='C035', salesactid='A003', employeeid='E002', salesoppexcd='2023-08-25', salesoppexsa=42000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO036', customerid='C036', salesactid='A004', employeeid='E004', salesoppexcd='2023-09-16', salesoppexsa=73000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO037', customerid='C037', salesactid='A001', employeeid='E004', salesoppexcd='2023-09-27', salesoppexsa=89000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO038', customerid='C038', salesactid='A002', employeeid='E006', salesoppexcd='2023-10-18', salesoppexsa=96000, status="失敗")
-    SalesOpportunity.objects.create(salesoppid='SO039', customerid='C039', salesactid='A003', employeeid='E005', salesoppexcd='2023-11-06', salesoppexsa=52000, status="成功")
-    SalesOpportunity.objects.create(salesoppid='SO040', customerid='C040', salesactid='A004', employeeid='E007', salesoppexcd='2023-12-20', salesoppexsa=78000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO022', customerid='C022', salesactid='A002', employeeid='E002', salesoppexcd='2023-01-11', salesoppexsa=62000, status="失敗")
+    SalesOpportunity.objects.create(salesoppid='SO023', customerid='C023', salesactid='A003', employeeid='E003', salesoppexcd='2023-02-07', salesoppexsa=18000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO024', customerid='C024', salesactid='A004', employeeid='E004', salesoppexcd='2023-02-16', salesoppexsa=44000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO025', customerid='C025', salesactid='A001', employeeid='E005', salesoppexcd='2023-03-04', salesoppexsa=50000, status="失敗")
+    SalesOpportunity.objects.create(salesoppid='SO026', customerid='C026', salesactid='A002', employeeid='E006', salesoppexcd='2023-03-16', salesoppexsa=15000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO027', customerid='C027', salesactid='A003', employeeid='E007', salesoppexcd='2023-03-23', salesoppexsa=33000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO028', customerid='C028', salesactid='A004', employeeid='E008', salesoppexcd='2023-04-02', salesoppexsa=50000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO029', customerid='C029', salesactid='A001', employeeid='E009', salesoppexcd='2023-04-17', salesoppexsa=94000, status="失敗")
+    SalesOpportunity.objects.create(salesoppid='SO030', customerid='C030', salesactid='A002', employeeid='E010', salesoppexcd='2023-04-30', salesoppexsa=73000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO031', customerid='C031', salesactid='A003', employeeid='E001', salesoppexcd='2023-05-08', salesoppexsa=43000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO032', customerid='C032', salesactid='A004', employeeid='E001', salesoppexcd='2023-05-19', salesoppexsa=57000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO033', customerid='C033', salesactid='A001', employeeid='E003', salesoppexcd='2023-05-28', salesoppexsa=67000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO034', customerid='C034', salesactid='A002', employeeid='E005', salesoppexcd='2023-06-04', salesoppexsa=80000, status="失敗")
+    SalesOpportunity.objects.create(salesoppid='SO035', customerid='C035', salesactid='A003', employeeid='E002', salesoppexcd='2023-06-13', salesoppexsa=42000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO036', customerid='C036', salesactid='A004', employeeid='E004', salesoppexcd='2023-06-25', salesoppexsa=73000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO037', customerid='C037', salesactid='A001', employeeid='E004', salesoppexcd='2023-07-02', salesoppexsa=89000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO038', customerid='C038', salesactid='A002', employeeid='E006', salesoppexcd='2023-07-14', salesoppexsa=96000, status="失敗")
+    SalesOpportunity.objects.create(salesoppid='SO039', customerid='C039', salesactid='A003', employeeid='E005', salesoppexcd='2023-07-22', salesoppexsa=52000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO040', customerid='C040', salesactid='A004', employeeid='E007', salesoppexcd='2023-08-05', salesoppexsa=78000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO041', customerid='C041', salesactid='A004', employeeid='E007', salesoppexcd='2023-08-13', salesoppexsa=50000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO042', customerid='C042', salesactid='A004', employeeid='E002', salesoppexcd='2023-08-21', salesoppexsa=78000, status="失敗")
+    SalesOpportunity.objects.create(salesoppid='SO043', customerid='C043', salesactid='A002', employeeid='E005', salesoppexcd='2023-09-01', salesoppexsa=43000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO044', customerid='C044', salesactid='A001', employeeid='E001', salesoppexcd='2023-09-13', salesoppexsa=29000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO045', customerid='C045', salesactid='A004', employeeid='E008', salesoppexcd='2023-09-27', salesoppexsa=72000, status="失敗")
+    SalesOpportunity.objects.create(salesoppid='SO046', customerid='C046', salesactid='A002', employeeid='E005', salesoppexcd='2023-10-07', salesoppexsa=38000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO047', customerid='C047', salesactid='A003', employeeid='E009', salesoppexcd='2023-10-19', salesoppexsa=91000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO048', customerid='C048', salesactid='A001', employeeid='E003', salesoppexcd='2023-11-15', salesoppexsa=87000, status="失敗")
+    SalesOpportunity.objects.create(salesoppid='SO049', customerid='C049', salesactid='A003', employeeid='E002', salesoppexcd='2023-12-06', salesoppexsa=31000, status="成功")
+    SalesOpportunity.objects.create(salesoppid='SO050', customerid='C050', salesactid='A002', employeeid='E007', salesoppexcd='2023-12-20', salesoppexsa=29000, status="失敗")
 
 create_salesopportunity()
 

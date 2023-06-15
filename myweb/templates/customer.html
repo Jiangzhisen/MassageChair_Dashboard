@@ -21,9 +21,9 @@
   <!-- <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png"> -->
   <link rel="apple-touch-icon" sizes="76x76" href="../static/img/apple-icon.png">
   <!-- <link rel="icon" type="image/png" href="../assets/img/logo-ct.png"> -->
-  <link rel="icon" type="image/png" href="../static/img/logo-ct.png">
+  <link rel="icon" type="image/png" href="../static/img/chair.png">
   <title>
-    SE按摩椅儀錶板
+    按摩椅營運儀錶板
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -49,10 +49,10 @@
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href="" target="_blank">
+      <a class="navbar-brand m-0" href="/index/">
         <!-- <img src="../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo"> -->
         <img src="../static/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">按摩椅儀表板</span>
+        <span class="ms-1 font-weight-bold text-white">按摩椅營運儀表板</span>
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -82,14 +82,14 @@
             <span class="nav-link-text ms-1">按摩椅</span>
           </a>
         </li>
-        <li class="nav-item">
+        {% comment %} <li class="nav-item">
           <a class="nav-link text-white" href="/activity/">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">view_in_ar</i>
             </div>
             <span class="nav-link-text ms-1">活動消息</span>
           </a>
-        </li>
+        </li> {% endcomment %}
         <!-- <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>
@@ -106,7 +106,7 @@
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
       <div class="mx-3">
-        <a class="btn btn-outline-primary mt-4 w-100" href="" type="button">Sign out</a>
+        <a class="btn btn-outline-primary mt-4 w-100" href="/signout/" type="button">Sign out</a>
       </div>
     </div>
   </aside>
@@ -115,10 +115,10 @@
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+          {% comment %} <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">客戶資訊</li>
-          </ol>
+          </ol> {% endcomment %}
           <h6 class="font-weight-bolder mb-0">客戶資訊</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
@@ -181,7 +181,7 @@
                 <h6 class="text-white text-capitalize ps-3">客戶資料</h6>
               </div>
             </div>
-            <div class="card-body px-0 pb-2" style="overflow: auto; height: 500px; scroll-behavior: smooth;">
+            <div class="card-body px-0 pb-2" style="overflow: auto; max-height: 500px; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #888888 #F8F9FE;">
               <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0">
                   <thead>
@@ -288,6 +288,9 @@
                     <h6>階段分析圖</h6>
                     <div class="chart-container container" style="position: relative;width:80%">
                       <canvas id="bar-line-chart"></canvas>
+                      <div style="position: absolute; left: -20px; top: 0; height: 100%; display: flex; align-items: center; writing-mode: vertical-rl;">
+                        <span>人數</span>
+                      </div>
                     </div>
 
                     <script>
@@ -408,7 +411,7 @@
             </td>
           </tr>
 
-          <tr>
+          {% comment %} <tr>
             <td>
               <div class="card mb-2">
                 <div class="card-body p-3">
@@ -421,7 +424,47 @@
                 </div>
               </div>
             </td>
+          </tr> {% endcomment %}
+
+          <tr>
+            <td colspan="2">
+              <div class="card mb-2">
+                <div class="card-body p-3">
+                  <div class="chart">
+                    <h6>各階段成功率分析圖</h6>
+                    <div class="chart-container container" style="position: relative;width:80%">
+                      <canvas id="funnelChart1"></canvas>
+                      <div style="position: absolute; left: -20px; top: 0; height: 100%; display: flex; align-items: center; writing-mode: vertical-rl;">
+                        <span>成功率</span>
+                      </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </td>
           </tr>
+
+          <tr>
+            <td colspan="2">
+              <div class="card mb-2">
+                <div class="card-body p-3">
+                  <div class="chart">
+                    <h6>購買因素分析圖</h6>
+                    <div class="chart-container container" style="position: relative; width: 80%; margin-top: 20px; margin-bottom: 20px;">
+                      <canvas id="scatterChart"></canvas>
+                      <div style="position: absolute; left: 0; bottom: -20px; width: 100%; text-align: center;">
+                        <span>舒適度</span>
+                      </div>
+                      <div style="position: absolute; left: -20px; top: 0; height: 100%; display: flex; align-items: center; writing-mode: vertical-rl;">
+                        <span>價格</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          
 
         </table>
         
@@ -593,34 +636,81 @@
                           options: options
                         });
 
-                        
-                        // 取得畫布元素
-                        var ctx = document.getElementById('barChart1').getContext('2d');
-
-                        // 創建資料
-                        var data = {
-                            labels: ['階段1', '階段2', '階段3', '階段4'], // X 軸標籤
-                            datasets: [{
-                                label: "成功率", // 圖例標籤
-                                data: [{% for rate in successRateList %}"{{ rate }}", {% endfor %}], // Y 軸數值
-                                backgroundColor: 'rgba(255, 165, 0, 0.5)', // 橘色的背景顏色
-                                borderColor: 'rgba(255, 165, 0, 1)', // 橘色的邊框顏色
-                                borderWidth: 1 // 長條邊框寬度
-                            }]
-                        };
-
-                        // 創建長條圖
-                        var barChart = new Chart(ctx, {
+                        const ctx5 = document.getElementById('funnelChart1').getContext('2d');
+                        var funnelChart = new Chart(ctx5, {
                             type: 'bar',
-                            data: data,
+                            data: {
+                                labels: ['階段1', '階段2', '階段3', '階段4'],
+                                datasets: [{
+                                    label: '成功率',
+                                    //data: [5000, 3500, 2000, 1000, 500],
+                                    data: [{% for successRate in successRateList %}"{{ successRate }}", {% endfor %}],
+                                    backgroundColor: ['#ffcd56', '#ff6384', '#36a2eb', '#fd6b19'],
+                                    borderWidth: 0
+                                }]
+                            },
                             options: {
                                 responsive: true,
+                                legend: {
+                                    display: false
+                                },
                                 scales: {
-                                    y: {
-                                        beginAtZero: true // Y 軸從 0 開始
-                                    }
+                                    xAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
                                 }
                             }
+                        });
+
+
+                        const ctx6 = document.getElementById('scatterChart').getContext('2d');
+                        const scatterChart = new Chart(ctx6, {
+                          type: 'scatter',
+                          data: {
+                            datasets: [{
+                              label: '購買因素',
+                              // data: [
+                              //   { x: 10, y: 20 },
+                              //   { x: 15, y: 25 },
+                              //   { x: 20, y: 15 },
+                              //   { x: 25, y: 30 },
+                              //   { x: 30, y: 10 }
+                              // ],
+                              data: [
+                                {% for factor in factorList %}{ x: "{{ factor.comfort }}", y: "{{ factor.price }}" }, {% endfor %}
+                              ],
+                              backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                              pointRadius: 8 // 設定點的半徑大小
+                            }]
+                          },
+                          options: {
+                            scales: {
+                              x: {
+                                type: 'linear',
+                                position: 'bottom',
+                                grid: {
+                                  display: false // 不顯示網格線
+                                }
+                              },
+                              y: {
+                                type: 'linear',
+                                position: 'left',
+                                grid: {
+                                  display: false // 不顯示網格線
+                                }
+                              }
+                            },
+                            plugins: {
+                              labels: {
+                                render: 'label', // 指定要渲染為標籤的類型
+                                fontColor: '#000',
+                                fontSize: 12,
+                                position: 'top' // 在圖表上方顯示標籤
+                              }
+                            }
+                          }
                         });
 
                       </script>
@@ -660,11 +750,17 @@
   </main>
 
   <!--   Core JS Files   -->
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <!-- <script src="../assets/js/core/popper.min.js"></script> -->
+  <script src="../static/js/core/popper.min.js"></script>
+  <!-- <script src="../assets/js/core/bootstrap.min.js"></script> -->
+  <script src="../static/js/core/bootstrap.min.js"></script>
+  <!-- <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script> -->
+  <script src="../static/js/plugins/perfect-scrollbar.min.js"></script>
+  <!-- <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script> -->
+  <script src="../static/js/plugins/smooth-scrollbar.min.js"></script>
+  <!-- <script src="../assets/js/plugins/chartjs.min.js"></script> -->
+  <script src="../static/js/plugins/chartjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
@@ -679,7 +775,8 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <!-- <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script> -->
+  <script src="../static/js/material-dashboard.min.js?v=3.1.0"></script>
 </body>
 
 </html>

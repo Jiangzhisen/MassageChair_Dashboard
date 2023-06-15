@@ -53,6 +53,9 @@ class Feedback(models.Model):
     feedbackdate = models.DateField()
     feedbacktype = models.CharField(max_length=45)
     processstatus = models.CharField(max_length=45)
+    factor = models.CharField(max_length=45)
+    factor_price = models.IntegerField()
+    factor_comfort = models.DecimalField(max_digits=10, decimal_places=2)
 
 #公共按摩椅資料表
 class MassageChair(models.Model):
