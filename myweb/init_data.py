@@ -1,19 +1,9 @@
 from myapp.models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors, User
-from datetime import date
 import random
 from datetime import datetime, timedelta
 from django.utils import timezone
-from django.db.models import Count
+from django.db.models import Count, Sum
 
-def create_branches():
-    # 創建分店資料
-    Branch.objects.create(branchid='B001', branchname='台北分店', branchaddress='台北市中正區', branchphone='02-12345678', employeeid='E001', salesyear = 1220000)
-    Branch.objects.create(branchid='B002', branchname='新北分店', branchaddress='新北市板橋區', branchphone='02-98765432', employeeid='E005', salesyear = 1350000)
-    Branch.objects.create(branchid='B003', branchname='桃園分店', branchaddress='桃園市中壢區', branchphone='03-24681357', employeeid='E008', salesyear = 950000)
-    Branch.objects.create(branchid='B004', branchname='高雄分店', branchaddress='高雄市左營區', branchphone='07-13579246', employeeid='E001', salesyear = 1680000)
-    Branch.objects.create(branchid='B005', branchname='台中分店', branchaddress='台中市西區', branchphone='04-56789012', employeeid='E001', salesyear = 1120000)
-
-create_branches()
 
 def create_Visitors():
     #創建訪客量資料
@@ -198,72 +188,116 @@ def update_usage_count():
 update_usage_count()
 
 
-def create_order():
-    # 創建訂單資料
-    Order.objects.create(orderid='O001', employeeid='E001', customerid='C001', orderdate='2022-01-07', orderprice=48000)
-    Order.objects.create(orderid='O002', employeeid='E001', customerid='C002', orderdate='2022-02-10', orderprice=60000)
-    Order.objects.create(orderid='O003', employeeid='E002', customerid='C003', orderdate='2022-02-23', orderprice=72000)
-    Order.objects.create(orderid='O004', employeeid='E002', customerid='C004', orderdate='2022-03-05', orderprice=51000)
-    Order.objects.create(orderid='O005', employeeid='E003', customerid='C005', orderdate='2022-03-22', orderprice=100000)
-    Order.objects.create(orderid='O006', employeeid='E003', customerid='C006', orderdate='2022-04-08', orderprice=106000)
-    Order.objects.create(orderid='O007', employeeid='E004', customerid='C007', orderdate='2022-04-19', orderprice=25000)
-    Order.objects.create(orderid='O008', employeeid='E004', customerid='C008', orderdate='2022-05-13', orderprice=104000)
-    Order.objects.create(orderid='O009', employeeid='E005', customerid='C009', orderdate='2022-05-23', orderprice=18000)
-    Order.objects.create(orderid='O010', employeeid='E005', customerid='C010', orderdate='2022-06-01', orderprice=30000)
-    Order.objects.create(orderid='O011', employeeid='E006', customerid='C011', orderdate='2022-06-17', orderprice=63000)
-    Order.objects.create(orderid='O012', employeeid='E006', customerid='C012', orderdate='2022-07-06', orderprice=62000)
-    Order.objects.create(orderid='O013', employeeid='E007', customerid='C013', orderdate='2022-07-16', orderprice=50000)
-    Order.objects.create(orderid='O014', employeeid='E007', customerid='C014', orderdate='2022-08-07', orderprice=15000)
-    Order.objects.create(orderid='O015', employeeid='E008', customerid='C015', orderdate='2022-08-28', orderprice=115000)
-    Order.objects.create(orderid='O016', employeeid='E008', customerid='C016', orderdate='2022-09-16', orderprice=62000)
-    Order.objects.create(orderid='O017', employeeid='E009', customerid='C017', orderdate='2022-10-11', orderprice=33000)
-    Order.objects.create(orderid='O018', employeeid='E009', customerid='C018', orderdate='2022-10-22', orderprice=62000)
-    Order.objects.create(orderid='O019', employeeid='E010', customerid='C019', orderdate='2022-11-10', orderprice=50000)
-    Order.objects.create(orderid='O020', employeeid='E010', customerid='C020', orderdate='2022-12-15', orderprice=94000)
+# def create_order():
+#     # 創建訂單資料
+#     Order.objects.create(orderid='O001', employeeid='E001', customerid='C001', orderdate='2022-01-07', orderprice=48000)
+#     Order.objects.create(orderid='O002', employeeid='E001', customerid='C002', orderdate='2022-02-10', orderprice=60000)
+#     Order.objects.create(orderid='O003', employeeid='E002', customerid='C003', orderdate='2022-02-23', orderprice=72000)
+#     Order.objects.create(orderid='O004', employeeid='E002', customerid='C004', orderdate='2022-03-05', orderprice=51000)
+#     Order.objects.create(orderid='O005', employeeid='E003', customerid='C005', orderdate='2022-03-22', orderprice=100000)
+#     Order.objects.create(orderid='O006', employeeid='E003', customerid='C006', orderdate='2022-04-08', orderprice=106000)
+#     Order.objects.create(orderid='O007', employeeid='E004', customerid='C007', orderdate='2022-04-19', orderprice=25000)
+#     Order.objects.create(orderid='O008', employeeid='E004', customerid='C008', orderdate='2022-05-13', orderprice=104000)
+#     Order.objects.create(orderid='O009', employeeid='E005', customerid='C009', orderdate='2022-05-23', orderprice=18000)
+#     Order.objects.create(orderid='O010', employeeid='E005', customerid='C010', orderdate='2022-06-01', orderprice=30000)
+#     Order.objects.create(orderid='O011', employeeid='E006', customerid='C011', orderdate='2022-06-17', orderprice=63000)
+#     Order.objects.create(orderid='O012', employeeid='E006', customerid='C012', orderdate='2022-07-06', orderprice=62000)
+#     Order.objects.create(orderid='O013', employeeid='E007', customerid='C013', orderdate='2022-07-16', orderprice=50000)
+#     Order.objects.create(orderid='O014', employeeid='E007', customerid='C014', orderdate='2022-08-07', orderprice=15000)
+#     Order.objects.create(orderid='O015', employeeid='E008', customerid='C015', orderdate='2022-08-28', orderprice=115000)
+#     Order.objects.create(orderid='O016', employeeid='E008', customerid='C016', orderdate='2022-09-16', orderprice=62000)
+#     Order.objects.create(orderid='O017', employeeid='E009', customerid='C017', orderdate='2022-10-11', orderprice=33000)
+#     Order.objects.create(orderid='O018', employeeid='E009', customerid='C018', orderdate='2022-10-22', orderprice=62000)
+#     Order.objects.create(orderid='O019', employeeid='E010', customerid='C019', orderdate='2022-11-10', orderprice=50000)
+#     Order.objects.create(orderid='O020', employeeid='E010', customerid='C020', orderdate='2022-12-15', orderprice=94000)
 
-create_order()
+# create_order()
+
+
+#隨機生成日期
+def generate_random_date():
+    start_date = datetime(2022, 1, 1)
+    end_date = datetime(2022, 12, 31)
+    random_date = start_date + timedelta(days=random.randint(0, (end_date - start_date).days))
+    return random_date.date()
 
 
 def create_orderdetail():
+    order_ids = [f"O00{x}" for x in range(1, 101)]
+    product_ids = [f"P00{x}" for x in range(1, 101)]
+    model_ids = [f"M00{x}" for x in range(1, 6)]
+    employee_ids = [f"E00{x}" for x in range(1, 11)]
+    customer_ids = [f"C00{x}" for x in range(1, 21)]
+    sales_quantity = [1, 2]
+    sales_amounts = {
+        "M001": 15000,
+        "M002": 18000,
+        "M003": 20000,
+        "M004": 22000,
+        "M005": 25000
+    }
+
+    orderList = []
+
+    for order_id in order_ids:
+        product_id = random.choice(product_ids)
+        product_ids.remove(product_id)  # 移除已選取的 product_id
+        model_id = random.choice(model_ids)
+        quantity = random.choice(sales_quantity)
+        amount = sales_amounts[model_id] * quantity
+        employee_id = random.choice(employee_ids)
+        customer_id = random.choice(customer_ids)
+        order_date = generate_random_date()
+        OrderDetail.objects.create(orderid=order_id, productid=product_id, modelid=model_id, salesquantity=quantity, salesamount=amount)
+        Order.objects.create(orderid=order_id, employeeid=employee_id, customerid=customer_id, orderdate=order_date, orderprice=amount)
+        orderinfo = {
+            "id": order_id,
+            "amount": amount
+        }
+        orderList.append(orderinfo)
+
+    print(orderList)
+
+
     # 創建訂單詳細資料
-    OrderDetail.objects.create(orderid='O001', productid='P001', modelid='M001', salesquantity=2, salesamount=30000)
-    OrderDetail.objects.create(orderid='O001', productid='P002', modelid='M002', salesquantity=1, salesamount=18000)
-    OrderDetail.objects.create(orderid='O002', productid='P003', modelid='M003', salesquantity=3, salesamount=60000)
-    OrderDetail.objects.create(orderid='O003', productid='P004', modelid='M004', salesquantity=1, salesamount=22000)
-    OrderDetail.objects.create(orderid='O003', productid='P005', modelid='M005', salesquantity=2, salesamount=50000)
-    OrderDetail.objects.create(orderid='O004', productid='P006', modelid='M002', salesquantity=2, salesamount=36000)
-    OrderDetail.objects.create(orderid='O004', productid='P007', modelid='M001', salesquantity=1, salesamount=15000)
-    OrderDetail.objects.create(orderid='O005', productid='P008', modelid='M005', salesquantity=4, salesamount=100000)
-    OrderDetail.objects.create(orderid='O006', productid='P009', modelid='M004', salesquantity=3, salesamount=66000)
-    OrderDetail.objects.create(orderid='O006', productid='P010', modelid='M003', salesquantity=2, salesamount=40000)
-    OrderDetail.objects.create(orderid='O007', productid='P011', modelid='M005', salesquantity=1, salesamount=25000)
-    OrderDetail.objects.create(orderid='O008', productid='P012', modelid='M004', salesquantity=2, salesamount=44000)
-    OrderDetail.objects.create(orderid='O008', productid='P013', modelid='M003', salesquantity=3, salesamount=60000)
-    OrderDetail.objects.create(orderid='O009', productid='P014', modelid='M002', salesquantity=1, salesamount=18000)
-    OrderDetail.objects.create(orderid='O010', productid='P015', modelid='M001', salesquantity=2, salesamount=30000)
-    OrderDetail.objects.create(orderid='O011', productid='P016', modelid='M001', salesquantity=3, salesamount=45000)
-    OrderDetail.objects.create(orderid='O011', productid='P017', modelid='M002', salesquantity=1, salesamount=18000)
-    OrderDetail.objects.create(orderid='O012', productid='P018', modelid='M003', salesquantity=2, salesamount=40000)
-    OrderDetail.objects.create(orderid='O012', productid='P019', modelid='M004', salesquantity=1, salesamount=22000)
-    OrderDetail.objects.create(orderid='O013', productid='P020', modelid='M005', salesquantity=2, salesamount=50000)
-    OrderDetail.objects.create(orderid='O014', productid='P022', modelid='M001', salesquantity=1, salesamount=15000)
-    OrderDetail.objects.create(orderid='O015', productid='P022', modelid='M003', salesquantity=2, salesamount=40000)
-    OrderDetail.objects.create(orderid='O015', productid='P023', modelid='M005', salesquantity=3, salesamount=75000)
-    OrderDetail.objects.create(orderid='O016', productid='P024', modelid='M002', salesquantity=1, salesamount=18000)
-    OrderDetail.objects.create(orderid='O016', productid='P025', modelid='M004', salesquantity=2, salesamount=44000)
-    OrderDetail.objects.create(orderid='O017', productid='P026', modelid='M001', salesquantity=1, salesamount=15000)
-    OrderDetail.objects.create(orderid='O017', productid='P027', modelid='M002', salesquantity=1, salesamount=18000)
-    OrderDetail.objects.create(orderid='O018', productid='P028', modelid='M003', salesquantity=2, salesamount=40000)
-    OrderDetail.objects.create(orderid='O018', productid='P029', modelid='M004', salesquantity=1, salesamount=22000)
-    OrderDetail.objects.create(orderid='O019', productid='P030', modelid='M005', salesquantity=2, salesamount=50000)
-    OrderDetail.objects.create(orderid='O020', productid='P031', modelid='M005', salesquantity=2, salesamount=50000)
-    OrderDetail.objects.create(orderid='O020', productid='P032', modelid='M004', salesquantity=2, salesamount=44000)
+    # OrderDetail.objects.create(orderid='O001', productid='P001', modelid='M001', salesquantity=2, salesamount=30000)
+    # OrderDetail.objects.create(orderid='O001', productid='P002', modelid='M002', salesquantity=1, salesamount=18000)
+    # OrderDetail.objects.create(orderid='O002', productid='P003', modelid='M003', salesquantity=3, salesamount=60000)
+    # OrderDetail.objects.create(orderid='O003', productid='P004', modelid='M004', salesquantity=1, salesamount=22000)
+    # OrderDetail.objects.create(orderid='O003', productid='P005', modelid='M005', salesquantity=2, salesamount=50000)
+    # OrderDetail.objects.create(orderid='O004', productid='P006', modelid='M002', salesquantity=2, salesamount=36000)
+    # OrderDetail.objects.create(orderid='O004', productid='P007', modelid='M001', salesquantity=1, salesamount=15000)
+    # OrderDetail.objects.create(orderid='O005', productid='P008', modelid='M005', salesquantity=4, salesamount=100000)
+    # OrderDetail.objects.create(orderid='O006', productid='P009', modelid='M004', salesquantity=3, salesamount=66000)
+    # OrderDetail.objects.create(orderid='O006', productid='P010', modelid='M003', salesquantity=2, salesamount=40000)
+    # OrderDetail.objects.create(orderid='O007', productid='P011', modelid='M005', salesquantity=1, salesamount=25000)
+    # OrderDetail.objects.create(orderid='O008', productid='P012', modelid='M004', salesquantity=2, salesamount=44000)
+    # OrderDetail.objects.create(orderid='O008', productid='P013', modelid='M003', salesquantity=3, salesamount=60000)
+    # OrderDetail.objects.create(orderid='O009', productid='P014', modelid='M002', salesquantity=1, salesamount=18000)
+    # OrderDetail.objects.create(orderid='O010', productid='P015', modelid='M001', salesquantity=2, salesamount=30000)
+    # OrderDetail.objects.create(orderid='O011', productid='P016', modelid='M001', salesquantity=3, salesamount=45000)
+    # OrderDetail.objects.create(orderid='O011', productid='P017', modelid='M002', salesquantity=1, salesamount=18000)
+    # OrderDetail.objects.create(orderid='O012', productid='P018', modelid='M003', salesquantity=2, salesamount=40000)
+    # OrderDetail.objects.create(orderid='O012', productid='P019', modelid='M004', salesquantity=1, salesamount=22000)
+    # OrderDetail.objects.create(orderid='O013', productid='P020', modelid='M005', salesquantity=2, salesamount=50000)
+    # OrderDetail.objects.create(orderid='O014', productid='P022', modelid='M001', salesquantity=1, salesamount=15000)
+    # OrderDetail.objects.create(orderid='O015', productid='P022', modelid='M003', salesquantity=2, salesamount=40000)
+    # OrderDetail.objects.create(orderid='O015', productid='P023', modelid='M005', salesquantity=3, salesamount=75000)
+    # OrderDetail.objects.create(orderid='O016', productid='P024', modelid='M002', salesquantity=1, salesamount=18000)
+    # OrderDetail.objects.create(orderid='O016', productid='P025', modelid='M004', salesquantity=2, salesamount=44000)
+    # OrderDetail.objects.create(orderid='O017', productid='P026', modelid='M001', salesquantity=1, salesamount=15000)
+    # OrderDetail.objects.create(orderid='O017', productid='P027', modelid='M002', salesquantity=1, salesamount=18000)
+    # OrderDetail.objects.create(orderid='O018', productid='P028', modelid='M003', salesquantity=2, salesamount=40000)
+    # OrderDetail.objects.create(orderid='O018', productid='P029', modelid='M004', salesquantity=1, salesamount=22000)
+    # OrderDetail.objects.create(orderid='O019', productid='P030', modelid='M005', salesquantity=2, salesamount=50000)
+    # OrderDetail.objects.create(orderid='O020', productid='P031', modelid='M005', salesquantity=2, salesamount=50000)
+    # OrderDetail.objects.create(orderid='O020', productid='P032', modelid='M004', salesquantity=2, salesamount=44000)
 
 create_orderdetail()
 
 
 def create_product():
-    # 創建產品資料
+    # 創建產品資料  
     Product.objects.create(productid='P033', modelid='M001', productiondate='2021-11-01', supplierid='S001')
     Product.objects.create(productid='P034', modelid='M001', productiondate='2021-11-01', supplierid='S002')
     Product.objects.create(productid='P035', modelid='M002', productiondate='2021-11-01', supplierid='S003')
@@ -439,4 +473,16 @@ def create_user():
     User.objects.create(userid='admin@gmail.com', userpassword='1234', employeeid='E001')
 
 create_user()
+
+
+def create_branches():
+    total_order_price = Order.objects.aggregate(total_price=Sum('orderprice'))['total_price']
+    # 創建分店資料
+    Branch.objects.create(branchid='B001', branchname='台北分店', branchaddress='台北市中正區', branchphone='02-12345678', employeeid='E001', salesyear = 1220000)
+    Branch.objects.create(branchid='B002', branchname='新北分店', branchaddress='新北市板橋區', branchphone='02-98765432', employeeid='E005', salesyear = 1350000)
+    Branch.objects.create(branchid='B003', branchname='桃園分店', branchaddress='桃園市中壢區', branchphone='03-24681357', employeeid='E008', salesyear = total_order_price)
+    Branch.objects.create(branchid='B004', branchname='高雄分店', branchaddress='高雄市左營區', branchphone='07-13579246', employeeid='E001', salesyear = 1680000)
+    Branch.objects.create(branchid='B005', branchname='台中分店', branchaddress='台中市西區', branchphone='04-56789012', employeeid='E001', salesyear = 1120000)
+
+create_branches()
 

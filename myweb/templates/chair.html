@@ -192,7 +192,8 @@
             <div class="card-body">
               <h6 class="mb-0">{% for massager_id in massager_ids %}
                 {% if massager_id == 'M001' %}
-                    {{ massager_id }}
+                    {% comment %} {{ massager_id }} {% endcomment %}
+                    商務艙PLUS零重力按摩椅
                 {% endif %}
             {% endfor %}</h6>
               <table>
@@ -222,7 +223,8 @@
             <div class="card-body">
               <h6 class="mb-0">{% for massager_id in massager_ids %}
                 {% if massager_id == 'M002' %}
-                    {{ massager_id }}
+                    {% comment %} {{ massager_id }} {% endcomment %}
+                    360度原力按摩椅
                 {% endif %}
             {% endfor %}</h6>
               <table>
@@ -252,7 +254,8 @@
             <div class="card-body">
               <h6 class="mb-0">{% for massager_id in massager_ids %}
                 {% if massager_id == 'M003' %}
-                    {{ massager_id }}
+                    {% comment %} {{ massager_id }} {% endcomment %}
+                    超夢椅
                 {% endif %}
             {% endfor %}</h6>
               <table>
@@ -281,7 +284,8 @@
             <div class="card-body">
               <h6 class="mb-0">{% for massager_id in massager_ids %}
                 {% if massager_id == 'M004' %}
-                    {{ massager_id }}
+                    {% comment %} {{ massager_id }} {% endcomment %}
+                    V-Motion一健椅
                 {% endif %}
             {% endfor %}</h6>
               <table>
@@ -310,7 +314,8 @@
             <div class="card-body">
               <h6 class="mb-0">{% for massager_id in massager_ids %}
                 {% if massager_id == 'M005' %}
-                    {{ massager_id }}
+                    {% comment %} {{ massager_id }} {% endcomment %}
+                    追夢椅PLUS(石墨烯升級款)
                 {% endif %}
             {% endfor %}</h6>
               <table>
@@ -386,74 +391,71 @@
           </div>
         </div>
 
-        
         <div class="col-lg-4 col-md-6">
           <div class="card h-100">
             <div class="card-header pb-0">
-              <h6>產品庫存量分析</h6>
+              <h6>公共按摩椅使用次數分布</h6>
             </div>
             <div class="card-body p-3">
               <div class="table-responsive">
-                <canvas id="inventoryChart"></canvas>
-
-                <script>
-                  var inventoryData = [
-                    {%for products in product_quantities%}
-                      { model: '{{products.modelid}}', stock: '{{products.quantity}}' },
-                    {% endfor %},
-                  ];
-          
-                    // 庫存量圖表設定
-                  var inventoryLabels = inventoryData.map(function(data) {
-                      return data.model;
-                  });
-          
-                  var inventoryValues = inventoryData.map(function(data) {
-                      return data.stock;
-                  });
-          
-                  var inventoryCtx = document.getElementById('inventoryChart').getContext('2d');
-                  var inventoryChart = new Chart(inventoryCtx, {
-                      type: 'pie',
-                      data: {
-                          labels: inventoryLabels,
-                          datasets: [{
-                              label: '庫存量',
-                              data: inventoryValues,
-                              backgroundColor: [
-                                  '#ff6384',
-                                  '#36a2eb',
-                                  '#ffce56',
-                                  '#cc65fe',
-                                  '#67b7dc'
-                              ],
-                          }]
-                      },
-                      options: {
-                          responsive: true
-                      }
-                  });
-              </script>
+                <canvas id="doughnutChart"></canvas>
               </div>
             </div>
           </div>
         </div>
       </div>
-
+      
       <div class="col-lg-4 col-md-6">
         <div class="card h-100">
           <div class="card-header pb-0">
-            <h6>公共按摩椅使用次數分布</h6>
+            <h6>產品庫存量分析</h6>
           </div>
           <div class="card-body p-3">
             <div class="table-responsive">
-              <canvas id="doughnutChart"></canvas>
+              <canvas id="inventoryChart"></canvas>
+
+              <script>
+                var inventoryData = [
+                  {%for products in product_quantities%}
+                    { model: '{{products.modelid}}', stock: '{{products.quantity}}' },
+                  {% endfor %},
+                ];
+        
+                  // 庫存量圖表設定
+                var inventoryLabels = inventoryData.map(function(data) {
+                    return data.model;
+                });
+        
+                var inventoryValues = inventoryData.map(function(data) {
+                    return data.stock;
+                });
+        
+                var inventoryCtx = document.getElementById('inventoryChart').getContext('2d');
+                var inventoryChart = new Chart(inventoryCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: inventoryLabels,
+                        datasets: [{
+                            label: '庫存量',
+                            data: inventoryValues,
+                            backgroundColor: [
+                                '#ff6384',
+                                '#36a2eb',
+                                '#ffce56',
+                                '#cc65fe',
+                                '#67b7dc'
+                            ],
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            </script>
             </div>
           </div>
         </div>
       </div>
-      
-      
 
 
       <footer class="footer py-4  ">
@@ -892,7 +894,7 @@
 
     // 資料示例
     const data1 = {
-      labels: [{% for usage in usageList %}"{{ usage.id }}", {% endfor %}],
+      labels: [{% for usage in usageList %}"{{ usage.name }}", {% endfor %}],
       datasets: [{
         //data: [20, 22],
         data: [{% for usage in usageList %}"{{ usage.count }}", {% endfor %}],

@@ -2,69 +2,162 @@ from django.shortcuts import render, redirect
 from .models import Branch, Customer, Employee, Feedback, MassageChair, MassageChairUsage, Order, OrderDetail, ProductModel, Product, Purchase, PurchaseDetail, SalesActivity, SalesOpportunity, Supplier, Visitors, User
 from datetime import datetime
 import random
-from django.db.models import Count,Sum
+from django.db.models import Count, Sum
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.functions import TruncMonth
+from django.http import JsonResponse
 
 # Create your views here.
 
 #營運儀表板首頁
 def index(request):
     if request.session.get('is_authenticated', False):
-        #銷售量和銷售額的部分
-        orders = Order.objects.all()
-        dates = []
-        monthSales_quantity = []
-        monthSales_amount = []
-        totalamount = 0
-        totalquantity = 0
-        totalVisitor = 0
-        currentMonth = ""
-        currentQuatity = 0
-        currentAmount = 0
+        if request.method == 'GET':
+            month3 = str(request.GET.get('month'))
+            print(month3)
+            if month3 == "13":
+                status1 = True
+                #銷售額的部分
+                monthly_sales = Order.objects.annotate(month=TruncMonth('orderdate')).values('month').annotate(total_sales=Sum('orderprice'))
+                for entry in monthly_sales:
+                    month = entry['month']
+                    total_sales = entry['total_sales']
+                    # print(f"月份：{month.strftime('%m')}，總銷售金額：{total_sales}")
 
-        for order in orders:
-            date = order.orderdate
-            date_str = date.strftime("%m")
-            if date_str != currentMonth:
-                monthSales_quantity.append(currentQuatity)
-                monthSales_amount.append(currentAmount)
-                currentAmount = 0
-                currentQuatity = 0
-                currentMonth = date_str
-                orderId = order.orderid
-                order_details = OrderDetail.objects.filter(orderid = orderId)
-                for order_detail in order_details:
-                    quantity = order_detail.salesquantity
-                    currentQuatity += quantity
-                    totalquantity += quantity
-                amount = order.orderprice
-                currentAmount += amount
-                totalamount += amount
+                #銷售量的部分
+                quantityList = {}
+                monthList = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+                quantityList1 = []
+                orders = Order.objects.all()
+                for order in orders:
+                    orderid = order.orderid
+                    month = order.orderdate.strftime('%m')
+                    total_amount = OrderDetail.objects.filter(orderid=orderid).aggregate(total_quantity=Sum('salesquantity'))
+                    quantity = total_amount['total_quantity']
+                    if month in quantityList:
+                        quantityList[month] += quantity
+                    else:
+                        quantityList[month] = quantity
+
+                for month in monthList:
+                    quantityList1.append(quantityList[month])
+
+                total_order_price = Order.objects.aggregate(total_price=Sum('orderprice'))['total_price']
+                total_sales_quantity = OrderDetail.objects.aggregate(total_quantity=Sum('salesquantity'))['total_quantity']
+
+            elif month3 == "01" or month3 == "02" or month3 == "03" or month3 == "04" or month3 == "05" or month3 == "06" or month3 == "07" or month3 == "08" or month3 == "09" or month3 == "10" or month3 == "11" or month3 == "12":
+                month3 = int(month3)
+                status2 = True
+                salesList = []
+                quantityList2 = []
+                dateList = []
+                orders1 = Order.objects.filter(orderdate__year=2022, orderdate__month=month3).order_by('orderdate')
+                for order1 in orders1:
+                    currentQuantity = 0
+                    orderid1 = order1.orderid
+                    orders2 = OrderDetail.objects.filter(orderid = orderid1)
+                    for order2 in orders2:
+                        currentQuantity += order2.salesquantity
+                    sales1 = order1.orderprice
+                    month1 = order1.orderdate.strftime('%m')
+                    day1 = order1.orderdate.strftime('%d')
+                    date5 = f"{month1}/{day1}"
+                    salesList.append(sales1)
+                    dateList.append(date5)
+                    quantityList2.append(currentQuantity)
+                
+                total_order_price = Order.objects.aggregate(total_price=Sum('orderprice'))['total_price']
+                total_sales_quantity = OrderDetail.objects.aggregate(total_quantity=Sum('salesquantity'))['total_quantity']
+                print(quantityList2)
             else:
-                orderId = order.orderid
-                order_details = OrderDetail.objects.filter(orderid = orderId)
-                for order_detail in order_details:
-                    quantity = order_detail.salesquantity
-                    currentQuatity += quantity
-                    totalquantity += quantity
-                amount = order.orderprice
-                currentAmount += amount
-                totalamount += amount
-            dates.append(date_str)
+                status1 = True
+                #銷售額的部分
+                monthly_sales = Order.objects.annotate(month=TruncMonth('orderdate')).values('month').annotate(total_sales=Sum('orderprice'))
+                for entry in monthly_sales:
+                    month = entry['month']
+                    total_sales = entry['total_sales']
+                    # print(f"月份：{month.strftime('%m')}，總銷售金額：{total_sales}")
+                
+                #銷售量的部分
+                quantityList = {}
+                monthList = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+                quantityList1 = []
+                orders = Order.objects.all()
+                for order in orders:
+                    orderid = order.orderid
+                    month = order.orderdate.strftime('%m')
+                    total_amount = OrderDetail.objects.filter(orderid=orderid).aggregate(total_quantity=Sum('salesquantity'))
+                    quantity = total_amount['total_quantity']
+                    if month in quantityList:
+                        quantityList[month] += quantity
+                    else:
+                        quantityList[month] = quantity
 
-        #去掉第一個無意義的值
-        monthSales_quantity.append(currentQuatity)
-        monthSales_quantity.pop(0)
-        monthSales_amount.append(currentAmount)
-        monthSales_amount.pop(0)
-        #去除重複的值
-        dates = set(dates)
-        new_dates = list(dates)
-        month_list = sorted(new_dates)
+                for month in monthList:
+                    quantityList1.append(quantityList[month])
+
+                total_order_price = Order.objects.aggregate(total_price=Sum('orderprice'))['total_price']
+                total_sales_quantity = OrderDetail.objects.aggregate(total_quantity=Sum('salesquantity'))['total_quantity']
+        
+
+
+    
+
+        # orders = Order.objects.all()
+        # dates = []
+        # monthSales_quantity = []
+        # monthSales_amount = []
+        # totalamount = 0
+        # totalquantity = 0
+        # totalVisitor = 0
+        # currentMonth = ""
+        # currentQuatity = 0
+        # currentAmount = 0
+
+        # for order in orders:
+        #     date = order.orderdate
+        #     date_str = date.strftime("%m")
+        #     if date_str != currentMonth:
+        #         monthSales_quantity.append(currentQuatity)
+        #         monthSales_amount.append(currentAmount)
+        #         currentAmount = 0
+        #         currentQuatity = 0
+        #         currentMonth = date_str
+        #         orderId = order.orderid
+        #         order_details = OrderDetail.objects.filter(orderid = orderId)
+        #         for order_detail in order_details:
+        #             quantity = order_detail.salesquantity
+        #             currentQuatity += quantity
+        #             totalquantity += quantity
+        #         amount = order.orderprice
+        #         currentAmount += amount
+        #         totalamount += amount
+        #     else:
+        #         orderId = order.orderid
+        #         order_details = OrderDetail.objects.filter(orderid = orderId)
+        #         for order_detail in order_details:
+        #             quantity = order_detail.salesquantity
+        #             currentQuatity += quantity
+        #             totalquantity += quantity
+        #         amount = order.orderprice
+        #         currentAmount += amount
+        #         totalamount += amount
+        #     dates.append(date_str)
+
+        # #去掉第一個無意義的值
+        # monthSales_quantity.append(currentQuatity)
+        # monthSales_quantity.pop(0)
+        # monthSales_amount.append(currentAmount)
+        # monthSales_amount.pop(0)
+        # #去除重複的值
+        # dates = set(dates)
+        # new_dates = list(dates)
+        # month_list = sorted(new_dates)
 
 
         #訪客數的部分
+        totalVisitor = 0
         visitors = Visitors.objects.all()
         monthSales_visitor = []
         dates1 = []
@@ -512,12 +605,49 @@ def massageChair(request):
         for usage in usages:
             massageChairId = usage.massagerid
             massageChairCount = usage.usagecount
-            massageChairInfo = {
-                "id": massageChairId,
-                "count": massageChairCount,
-                "color": generate_random_color()
-            }
-            usageList.append(massageChairInfo)
+            if massageChairId == "M001":
+                massageChairName = "商務艙PLUS零重力按摩椅"
+                massageChairInfo = {
+                    "name": massageChairName,
+                    "count": massageChairCount,
+                    "color": generate_random_color()
+                }
+                usageList.append(massageChairInfo)
+            elif massageChairId == "M002":
+                massageChairName = "360度原力按摩椅"
+                massageChairInfo = {
+                    "name": massageChairName,
+                    "count": massageChairCount,
+                    "color": generate_random_color()
+                }
+                usageList.append(massageChairInfo)
+            elif massageChairId == "M003":
+                massageChairName = "超夢椅"
+                massageChairInfo = {
+                    "name": massageChairName,
+                    "count": massageChairCount,
+                    "color": generate_random_color()
+                }
+                usageList.append(massageChairInfo)
+            elif massageChairId == "M004":
+                massageChairName = "V-Motion一健椅"
+                massageChairInfo = {
+                    "name": massageChairName,
+                    "count": massageChairCount,
+                    "color": generate_random_color()
+                }
+                usageList.append(massageChairInfo)
+            else:
+                massageChairName = "追夢椅PLUS(石墨烯升級款)"
+                massageChairInfo = {
+                    "name": massageChairName,
+                    "count": massageChairCount,
+                    "color": generate_random_color()
+                }
+                usageList.append(massageChairInfo)
+
+
+
 
     else:
         messages.error(request, '您還未登入！請輸入帳號密碼登入。')
